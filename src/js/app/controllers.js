@@ -28,4 +28,31 @@ angular.module('heathRobinson')
       26, 4, 26, 24, 18, 21, 23
     ];
 
+
+    // To start the tapes rolling at the same time, set the animations together
+
+    var getDurationStyles = function(id, duration) {
+      return "#" + id + " {-webkit-animation-duration:" + duration + "ms;" +
+                        " -moz-animation-duration:" + duration + "ms;" +
+                        " animation-duration:" + duration + "ms;}";
+    }
+
+    var getKeyFrames = function(id, length) {
+
+      var keyframes = '';
+      var prefixes = ['-webkit-', '-moz-', ''];
+      for(var i = 0; i < prefixes.length; i++) {
+        keyframes += "@" + prefixes[i] + "keyframes " + id + "{" +
+                     "from {background-position: 0 0;}" +
+                     "to {background-position: 0 -" + length + "px;}}";
+      }
+      return keyframes;
+    }
+
+    var tape1Length = $scope.sequence1.length;
+    var tape2Length = $scope.sequence2.length;
+    var durationStyles = getDurationStyles('tape1', tape1Length * 125) + getDurationStyles('tape2', tape2Length * 125);
+    var keyframeStyles = getKeyFrames('tape1', tape1Length * 20) + getKeyFrames('tape2', tape2Length * 20);
+    $scope.animations = durationStyles + keyframeStyles;
+
   });

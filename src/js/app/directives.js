@@ -63,24 +63,6 @@ angular.module('heathRobinson').
       }
     }
 
-    var getDurationStyles = function(id, duration) {
-      return "#" + id + " {-webkit-animation-duration:" + duration + "ms;" +
-                        " -moz-animation-duration:" + duration + "ms;" +
-                        " animation-duration:" + duration + "ms;}";
-    }
-
-    var getKeyFrames = function(id, length) {
-
-      var keyframes = '';
-      var prefixes = ['-webkit-', '-moz-', ''];
-      for(var i = 0; i < prefixes.length; i++) {
-        keyframes += "@" + prefixes[i] + "keyframes " + id + "{" +
-                     "from {background-position: 0 0;}" +
-                     "to {background-position: 0 -" + length + "px;}}";
-      }
-      return keyframes;
-    }
-
     return {
       restrict: 'A',
       scope: {
@@ -88,12 +70,6 @@ angular.module('heathRobinson').
       },
 
       link: function(scope, elem, attrs) {
-
-        // Add a style element to hold animation details for the tape
-        var headElement = angular.element(document.head);
-        var styleElement = angular.element("<style></style>");
-        headElement.append(styleElement);
-        styleElement.text(attrs.id);
 
         scope.$watch('ttydata', function(value) {
 
@@ -110,10 +86,6 @@ angular.module('heathRobinson').
           punchTape(value, context);
 
           elem.css('background-image', 'url(' + canvas.toDataURL("image/png") + ')');
-
-          var durationStyles = getDurationStyles(attrs.id, tapeLength * 125);
-          var keyframeStyles = getKeyFrames(attrs.id, tapeLength * 20);
-          styleElement.text(durationStyles + keyframeStyles);
 
         });
         
