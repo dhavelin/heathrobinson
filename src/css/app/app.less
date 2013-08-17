@@ -1,0 +1,32 @@
+#container {
+  padding-left: 100px;
+  background: url("../img/bg.jpg") #fff no-repeat top left;
+  height: 400px;
+  overflow: hidden;
+}
+.tape {
+  margin-right: 20px;
+  display: inline-block;
+  height: 400px;
+  width: 121px;
+  background-position: bottom left;
+  background-repeat: repeat-y;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
+#tape1 {
+  -webkit-animation-name: tape1; 
+  -moz-animation-name: tape1; 
+}
+#tape2 {
+  -webkit-animation-name: tape2; 
+  -moz-animation-name: tape2; 
+}
+canvas {
+  margin-left:-400px;
+  position: absolute;
+}
