@@ -9,7 +9,7 @@
   display: inline-block;
   height: 400px;
   width: 121px;
-  background-position: bottom left;
+  background-position: 0 0;
   background-repeat: repeat-y;
   -webkit-animation-iteration-count: infinite;
   -moz-animation-iteration-count: infinite;
@@ -17,16 +17,33 @@
   -webkit-animation-timing-function: linear;
   -moz-animation-timing-function: linear;
   animation-timing-function: linear;
+  -webkit-animation-play-state: inherit;
+  -moz-animation-play-state: inherit;
+  animation-play-state: inherit;
 }
-#tape1 {
-  -webkit-animation-name: tape1; 
-  -moz-animation-name: tape1; 
+.paused {
+  -webkit-animation-play-state: paused;
+  -moz-animation-play-state: paused;
+  animation-play-state: paused;
 }
-#tape2 {
-  -webkit-animation-name: tape2; 
-  -moz-animation-name: tape2; 
+.running {
+  -webkit-animation-play-state: running;
+  -moz-animation-play-state: running;
+  animation-play-state: running;
 }
 canvas {
   margin-left:-400px;
   position: absolute;
+}
+.btn {
+  margin-right: 8px;
+  width: 8em;
+}
+#controls, #counters {
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  background-color: #ddd;
+}
+#controls {
+  padding: 8px;
 }
