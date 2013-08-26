@@ -6,14 +6,19 @@ angular.module('heathRobinson')
     var getDurationStyles = function(id, length, charduration) {
       // charduration is the time (ms) for the tape to move one character 
       return "#" + id + " {-webkit-animation-duration:" + length * charduration + "ms;" +
-                        " -moz-animation-duration:" + length * charduration + "ms;" +
+                        " animation-duration:" + length * charduration + "ms;" +
+                        "}";
+
+                        /**
+      return "#" + id + " {-webkit-animation-duration:" + length * charduration + "ms;" +
                         " animation-duration:" + length * charduration + "ms;}";
+                        **/
     };
 
     var getKeyFrames = function(id, length) {
 
       var keyframes = '';
-      var prefixes = ['-webkit-', '-moz-', ''];
+      var prefixes = ['-webkit-', ''];
       for(var i = 0; i < prefixes.length; i++) {
         /**
         keyframes += "@" + prefixes[i] + "keyframes " + id + "{" +
