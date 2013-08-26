@@ -1,30 +1,44 @@
+@tape-width: 121px;
+@tape-height: 400px;
+@left-offset: 100px;
+
+.animation-play-state (@state) {
+  -webkit-animation-play-state: @state;
+  animation-play-state: @state;
+}
+
+.animation-iteration-count (@count) {
+  -webkit-animation-iteration-count: @count;
+  animation-iteration-count: @count;
+}
+
+.animation-timing-function (@timing) {
+  -webkit-animation-timing-function: @timing;
+  animation-timing-function: @timing;
+}
+
 #container {
-  padding-left: 100px;
+  padding-left: @left-offset;
   background: url("../img/bg.jpg") #fff no-repeat top left;
-  height: 400px;
+  height: @tape-height;
   overflow: hidden;
 }
 .tape {
   margin-right: 20px;
   display: inline-block;
-  height: 400px;
-  width: 121px;
+  height: @tape-height;
+  width: @tape-width;
   background-position: 0 0;
   background-repeat: repeat-y;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-play-state: inherit;
-  animation-play-state: inherit;
+  .animation-iteration-count(infinite);
+  .animation-timing-function(linear);
+  .animation-play-state(inherit);
 }
 .paused {
-  -webkit-animation-play-state: paused;
-  animation-play-state: paused;
+  .animation-play-state(paused);
 }
 .running {
-  -webkit-animation-play-state: running;
-  animation-play-state: running;
+  .animation-play-state(running);
 }
 canvas {
   margin-left:-400px;
@@ -43,17 +57,13 @@ canvas {
   padding: 8px;
 }
 #counters {
-  padding-left: 100px;
+  padding-left: @left-offset;
 }
 .counter {
-  width: 121px;
+  width: @tape-width;
   margin-right: 20px;
   font-size: 18px;
   text-align: center;
   display: inline-block;
   background-color: beige;
-}
-#counterTape1 {
-  position: absolute;
-  top: 0;
 }
