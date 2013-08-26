@@ -1,8 +1,9 @@
 /* Filters */
 
 angular.module('heathRobinson').
-  filter('interpolate', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
+  filter('zeropad', function() {
+    return function(num) {
+      var numAsText = num.toString();
+      return "0000".substring(0, 4 - numAsText.length) + numAsText;
     }
   });

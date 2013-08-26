@@ -27,32 +27,73 @@ angular.module('heathRobinson')
         **/
         keyframes += "@" + prefixes[i] + "keyframes " + id + "{" +
                      "from {background-position: 0 0;}" +
-                     "to {background-position: 0 -" + length * 20 + "px;}}";
+                     "to {background-position: 0 -" + length * 20 + "px;}}";      
       }
       return keyframes;
     };
 
     var setKeyFrames = function() {
-      var tape1Length = $scope.sequence1.length;
-      var tape2Length = $scope.sequence2.length;
+      var tape1Length = $scope.tape1.sequence.length;
+      var tape2Length = $scope.tape2.sequence.length;
       $scope.keyframes = getKeyFrames('tape1', tape1Length) + getKeyFrames('tape2', tape2Length);
     };
 
     var setDurations = function() {
       var charduration = 1000 / $scope.tapeSpeed.speed;
-      var tape1Length = $scope.sequence1.length;
-      var tape2Length = $scope.sequence2.length;
+      var tape1Length = $scope.tape1.sequence.length;
+      var tape2Length = $scope.tape2.sequence.length;
       $scope.durations = getDurationStyles('tape1', tape1Length, charduration) + getDurationStyles('tape2', tape2Length, charduration);
     };
 
     var setAnimationNames = function(on) {
       if (on) {
-        $scope.animationNames = "#tape1{-webkit-animation-name:tape1;-moz-animation-name:tape1;animation-name:tape1;}" +
-                                "#tape2{-webkit-animation-name:tape2;-moz-animation-name:tape2;animation-name:tape2;}";
+        $scope.animationNames = "#tape1{-webkit-animation-name:tape1;animation-name:tape1;}" +
+                                "#tape2{-webkit-animation-name:tape2;animation-name:tape2;}";
       } else {
-        $scope.animationNames = "#tape1{-webkit-animation-name:none;-moz-animation-name:none;animation-name:none;}" +
-                                "#tape2{-webkit-animation-name:none;-moz-animation-name:none;animation-name:none;}";
+        $scope.animationNames = "#tape1{-webkit-animation-name:none;animation-name:none;}" +
+                                "#tape2{-webkit-animation-name:none;animation-name:none;}";
       }
+    };
+
+    $scope.tape1 = {};
+    $scope.tape2 = {};
+
+    var tape1LoopStart = function(e) {
+      $scope.tape1.counter++;
+      $scope.$apply();
+    };
+
+    var tape1End = function(e) {
+      console.log("Tape 1 end");
+    };
+
+    var tape2LoopStart = function(e) {
+      $scope.tape2.counter++;
+      $scope.$apply();
+    };
+
+    var tape2End = function(e) {
+      console.log("Tape 2 end");
+    };
+
+    var animationListenerSetup = function() {
+      var e = document.getElementById("tape1");
+      e.addEventListener("webkitAnimationStart", tape1LoopStart, false);
+      e.addEventListener("webkitAnimationIteration", tape1LoopStart, false);
+      e.addEventListener("webkitAnimationEnd", tape1End, false);
+
+      e.addEventListener("animationstart", tape1LoopStart, false);
+      e.addEventListener("animationiteration", tape1LoopStart, false);
+      e.addEventListener("animationend", tape1End, false);
+
+      e = document.getElementById("tape2");
+      e.addEventListener("webkitAnimationStart", tape2LoopStart, false);
+      e.addEventListener("webkitAnimationIteration", tape2LoopStart, false);
+      e.addEventListener("webkitAnimationEnd", tape2End, false);
+
+      e.addEventListener("animationstart", tape2LoopStart, false);
+      e.addEventListener("animationiteration", tape2LoopStart, false);
+      e.addEventListener("animationend", tape2End, false);
     };
 
     $scope.togglePlaystate = function() {
@@ -72,7 +113,7 @@ angular.module('heathRobinson')
       setDurations();}
     );
 
-    $scope.sequence1 = [
+    $scope.tape1.sequence = [
       25, 9, 18, 26, 5, 3, 12, 13, 25, 30,
       20, 1, 16, 12, 19, 9, 15, 12, 3, 6,
       18, 8, 9, 25, 15, 28, 26, 31, 31, 8,
@@ -84,7 +125,7 @@ angular.module('heathRobinson')
       29, 22, 29, 20, 1, 26, 25, 9, 2, 27,
       20, 28, 20, 11, 8, 23, 28, 9, 29, 1, 10
     ];
-    $scope.sequence2 = [
+    $scope.tape2.sequence = [
       11, 30, 14, 21, 15, 22, 14, 8, 30, 14,
       20, 23, 2, 19, 5, 24, 20, 2, 1, 12,
       13, 21, 29, 1, 12, 17, 31, 22, 14, 7,
@@ -97,6 +138,9 @@ angular.module('heathRobinson')
       26, 4, 26, 24, 18, 21, 23, 11, 14, 15
     ];
 
+    $scope.tape1.counter = 0;
+    $scope.tape2.counter = 0;
+
     $scope.speeds = [
       {description:'Slow (4 chars/sec)', speed: 4},
       {description:'Faster (8 chars/sec)', speed: 8},
@@ -104,6 +148,7 @@ angular.module('heathRobinson')
     ];
     $scope.tapeRunning = false;
     $scope.tapeSpeed = $scope.speeds[1]; // Faster
+    animationListenerSetup();
     setKeyFrames();
     setAnimationNames(true);
   });

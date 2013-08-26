@@ -16,12 +16,13 @@
       </div>
     </div>
     <div id="counters" class="row">
-      <span>1700</span>
+      <div class="counter" data-ng-bind="tape1.counter | zeropad"></div>
+      <div class="counter" data-ng-bind="tape2.counter | zeropad"></div>
     </div>
     <div class="row">
       <div id="container" ng-class="{paused: !tapeRunning, running: tapeRunning}">
-        <div id="tape1" class="tape" data-tape data-ttydata="sequence1"></div>
-        <div id="tape2" class="tape" data-tape data-ttydata="sequence2"></div>
+        <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"></div>
+        <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"></div>
       </div>
     </div>
     <div id="controls" class="row">
