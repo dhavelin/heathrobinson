@@ -1,6 +1,9 @@
 /* Services */
 
 angular.module('heathRobinson').
+  constant('settings', {
+    tapeGap: 0
+  }).
   service('tty2bits', function() {
     this.convert = function(ttyChar) {
       if (ttyChar > 31 || ttyChar < 0) {

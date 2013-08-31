@@ -1,7 +1,7 @@
 /* Directives */
 
 angular.module('heathRobinson').
-  directive('tape', function(tty2bits) {
+  directive('tape', function(tty2bits, settings) {
 
     // Add a canvas element off-screen for creating punched tapes on
     var bodyElement = angular.element(document.body);
@@ -73,7 +73,7 @@ angular.module('heathRobinson').
 
         scope.$watch('ttydata', function(value) {
 
-          var tapeLength = value.length * 20;
+          var tapeLength = (value.length + settings.tapeGap) * 20;
           var canvas = canvasElement[0];
           var context = canvas.getContext('2d');
 

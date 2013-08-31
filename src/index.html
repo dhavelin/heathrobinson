@@ -15,9 +15,14 @@
         <h1>Heath Robinson</h1>
       </div>
     </div>
+    <div id="counter-labels" class="row">
+      <div id="loops">Loop Counters</div>
+      <div>Score</div>
+    </div>
     <div id="counters" class="row">
-      <div class="counter" data-ng-bind="tape1.counter | zeropad"></div>
-      <div class="counter" data-ng-bind="tape2.counter | zeropad"></div>
+      <div data-ng-bind="tape1.counter | zeropad"></div>
+      <div data-ng-bind="tape2.counter | zeropad"></div>
+      <div data-ng-bind="score | zeropad"></div>
     </div>
     <div class="row">
       <div id="container" ng-class="{paused: !tapeRunning, running: tapeRunning}">
@@ -31,9 +36,9 @@
           <button class="btn btn-primary" ng-click="resetTapes()">
             <span class="glyphicon glyphicon-repeat"></span>
             Reset</button><button class="btn btn-primary" ng-click="togglePlaystate()">
-            <span ng-class="{'glyphicon': true, 'glyphicon-pause': tapeRunning, 'glyphicon-play': !tapeRunning}"></span>
-            <span ng-if="tapeRunning">Pause</span>
-            <span ng-if="!tapeRunning">Play</span>
+            <span ng-class="{'glyphicon': true, 'glyphicon-stop': !tapeReset, 'glyphicon-play': tapeReset}"></span>
+            <span ng-if="!tapeReset">Stop</span>
+            <span ng-if="tapeReset">Play</span>
           </button>
           <div class="form-group">
             <label class="sr-only" for="tapeSpeed">Tape Speed</label>

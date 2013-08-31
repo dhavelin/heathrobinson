@@ -48,22 +48,38 @@ canvas {
   margin-right: 8px;
   width: 8em;
 }
-#controls, #counters {
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa;
+#counters, #counter-labels, #controls {
   background-color: #ddd;
+}
+#counters {
+  border-bottom: 1px solid #aaa;
+  div {
+    font-size: 18px;
+    background-color: beige;
+  }
+}
+#counter-labels {
+  border-top: 1px solid #aaa;
+  color: #fff;
+  div {
+    background-color: #008B8B;
+    padding: 2px;
+    &#loops {
+      width: (@tape-width * 2 + 20);
+    }
+  }
+}
+#counters, #counter-labels {
+  padding-left: @left-offset;
+  div {
+    width: @tape-width;
+    display: inline-block;
+    margin-right: 20px;
+    text-align: center;
+  }
 }
 #controls {
   padding: 8px;
-}
-#counters {
-  padding-left: @left-offset;
-}
-.counter {
-  width: @tape-width;
-  margin-right: 20px;
-  font-size: 18px;
-  text-align: center;
-  display: inline-block;
-  background-color: beige;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
