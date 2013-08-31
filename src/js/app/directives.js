@@ -66,10 +66,23 @@ angular.module('heathRobinson').
     return {
       restrict: 'A',
       scope: {
-        ttydata: '='
+        ttydata: '=',
+        loopCallback: '=',
+        loopCounter: '='
       },
 
       link: function(scope, elem, attrs) {
+
+        var loopHandler = function() {
+          scope.loopCounter++;
+          scope.$apply();
+          scope.loopCallback();
+        };
+
+        elem.bind('webkitAnimationStart', loopHandler);
+        elem.bind('webkitAnimationIteration', loopHandler);
+        elem.bind('animationstart', loopHandler);
+        elem.bind('animationiteration', loopHandler);
 
         scope.$watch('ttydata', function(value) {
 

@@ -26,8 +26,10 @@
     </div>
     <div class="row">
       <div id="container" ng-class="{paused: !tapeRunning, running: tapeRunning}">
-        <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"></div>
-        <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"></div>
+        <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"
+             data-loop-callback="tape1.loopStart" data-loop-counter="tape1.counter"></div>
+        <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"
+             data-loop-callback="tape2.loopStart" data-loop-counter="tape2.counter"></div>
       </div>
     </div>
     <div id="controls" class="row">

@@ -49,19 +49,28 @@ angular.module('heathRobinson')
       }
     };
 
-    $scope.tape1 = {};
-    $scope.tape2 = {};
-    var tape1 = {id: 'tape1'};
-    var tape2 = {id: 'tape2'};
+    $scope.tape1 = {
+      sequence: initialData.cipher,
+      counter: 0,
+      loopStart: function() {
+        $scope.score = 0;
+        $scope.$apply();
+      }
+    };
+    $scope.tape2 = {
+      sequence: initialData.key,
+      counter: 0,
+      loopStart: function() {
+        clearInterval(charInterval);
+        $scope.score = 0;
+        $scope.$apply();
+        charInterval = setInterval(newChar, 125);
+      }
+    };
 
-    $scope.tape1.sequence = initialData.cipher;
     $scope.tape1.len = $scope.tape1.sequence.length;
-
-    $scope.tape2.sequence = initialData.key;
     $scope.tape2.len = $scope.tape2.sequence.length;
 
-    $scope.tape1.counter = 0;
-    $scope.tape2.counter = 0;
     $scope.score = 0;
 
     var charInterval;
@@ -75,29 +84,6 @@ angular.module('heathRobinson')
         clearInterval(charInterval);
       }
       **/
-    };
-
-    tape1.loopStart = function(e) {
-      $scope.score = 0;
-      $scope.tape1.counter++;
-      $scope.$apply();
-    };
-
-    tape2.loopStart = function(e) {
-      clearInterval(charInterval);
-      $scope.score = 0;
-      $scope.tape2.counter++;
-      $scope.$apply();
-      charInterval = setInterval(newChar, 125);
-    };
-
-    var animationListenerSetup = function(tape) {
-      var e = document.getElementById(tape.id);
-      e.addEventListener("webkitAnimationStart", tape.loopStart, false);
-      e.addEventListener("webkitAnimationIteration", tape.loopStart, false);
-
-      e.addEventListener("animationstart", tape.loopStart, false);
-      e.addEventListener("animationiteration", tape.loopStart, false);
     };
 
     $scope.togglePlaystate = function() {
@@ -133,8 +119,6 @@ angular.module('heathRobinson')
     $scope.tapeRunning = false;
     $scope.tapeReset = true;
     $scope.tapeSpeed = $scope.speeds[1]; // Faster
-    animationListenerSetup(tape1);
-    animationListenerSetup(tape2);
     setKeyFrames();
     setAnimationNames(true);
   });
