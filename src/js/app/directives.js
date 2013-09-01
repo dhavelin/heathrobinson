@@ -140,20 +140,26 @@ angular.module('heathRobinson').
       controller: function($scope, $element, $attrs) {
 
         $scope.speeds = [
-          {description:'Slow (4 chars/sec)', speed: 4},
-          {description:'Faster (8 chars/sec)', speed: 8},
-          {description:'Actual (1000 chars / sec)', speed: 1000}
+          {description:'Slow (4 chars/sec)', speed: 250},
+          {description:'Faster (8 chars/sec)', speed: 125},
+          {description:'Actual (1000 chars / sec)', speed: 1}
         ];
         $scope.tapeSpeed = $scope.speeds[1]; // Faster
 
         $scope.tapes = {};
    
         this.addTape = function(id) {
-          $scope.tapes[id] = 0;
+          $scope.tapes[id] = {
+                               len: {
+                                 chars: 0,
+                                 pixels: 0
+                               }
+                             };
         };
 
-        this.setTapeLength = function(id, length) {
-          $scope.tapes[id] = length;
+        this.setTapeLength = function(id, len) {
+          $scope.tapes[id].len.chars = len;
+          $scope.tapes[id].len.pixels = (len + settings.tapeGap) * 20;
           this.setKeyframesStyle();
           this.setDurationStyle();
         };
@@ -161,14 +167,12 @@ angular.module('heathRobinson').
         this.setDurationStyle = function() {
 
           var styles = "";
-          var charDuration;
           var tapePeriod;
 
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
-              charduration = 1000 / $scope.tapeSpeed.speed;
-              tapePeriod = ($scope.tapes[id] + settings.tapeGap) * charduration;
-              styles += durationTemplate({id:id, tapePeriod:tapePeriod});
+              tapePeriod = ($scope.tapes[id].len.chars + settings.tapeGap) * $scope.tapeSpeed.speed;
+              styles += durationTemplate({ id: id, tapePeriod: tapePeriod });
             }
           }
           $scope.duration = styles;
@@ -181,7 +185,7 @@ angular.module('heathRobinson').
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
               name = reset ? 'none' : id;
-              styles += animationNameTemplate({id:id, name:name});
+              styles += animationNameTemplate({ id: id, name: name });
             }
           }
           $scope.animationName = styles;
@@ -189,12 +193,10 @@ angular.module('heathRobinson').
 
         this.setKeyframesStyle = function() {
           var styles = "";
-          var tapeLength;
 
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
-              tapeLength = ($scope.tapes[id] + settings.tapeGap) * 20;
-              styles += keyframesTemplate({id:id, tapeLength:tapeLength});
+              styles += keyframesTemplate({ id: id, tapeLength: $scope.tapes[id].len.pixels });
             }
           }
           $scope.keyframes = styles;
