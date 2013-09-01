@@ -65,13 +65,20 @@ angular.module('heathRobinson').
 
     return {
       restrict: 'A',
+
+      require: '^bedstead',
+
       scope: {
         ttydata: '=',
         loopCallback: '=',
-        loopCounter: '='
+        loopCounter: '=',
+        reset: '='
       },
 
-      link: function(scope, elem, attrs) {
+      link: function(scope, elem, attrs, controller) {
+
+        // register this tape on the bedstead
+        controller.addTape(elem[0].id);
 
         var loopHandler = function() {
           scope.loopCounter++;
@@ -85,6 +92,8 @@ angular.module('heathRobinson').
         elem.bind('animationiteration', loopHandler);
 
         scope.$watch('ttydata', function(value) {
+
+          controller.setTapeLength(elem[0].id, value.length);
 
           var tapeLength = (value.length + settings.tapeGap) * 20;
           var canvas = canvasElement[0];
@@ -101,7 +110,106 @@ angular.module('heathRobinson').
           elem.css('background-image', 'url(' + canvas.toDataURL("image/png") + ')');
 
         });
+
+        scope.$watch('reset', function(value) {
+          scope.loopCounter = 0;
+        });
         
+      }
+    };
+  }).
+  directive('bedstead', function(settings, $interpolate) {
+
+    // We can reuse angular functionality to create CSS templates 
+    var durationTemplate
+          = $interpolate('#{{id}} {-webkit-animation-duration:{{tapePeriod}}ms;' +
+                         'animation-duration:{{tapePeriod}}ms;}');
+
+    var animationNameTemplate
+          = $interpolate('#{{id}} {-webkit-animation-name:{{name}};animation-name:{{name}};}');
+
+    var keyframesTemplate
+          = $interpolate('@-webkit-keyframes {{id}}{from {background-position: 0 0;}' +
+                         'to {background-position: 0 -{{tapeLength}}px;}}' +
+                         '@keyframes {{id}}{from {background-position: 0 0;}' +
+                         'to {background-position: 0 -{{tapeLength}}px;}}');
+
+    return {
+      restrict: 'A',
+
+      controller: function($scope, $element, $attrs) {
+
+        $scope.speeds = [
+          {description:'Slow (4 chars/sec)', speed: 4},
+          {description:'Faster (8 chars/sec)', speed: 8},
+          {description:'Actual (1000 chars / sec)', speed: 1000}
+        ];
+        $scope.tapeSpeed = $scope.speeds[1]; // Faster
+
+        $scope.tapes = {};
+   
+        this.addTape = function(id) {
+          $scope.tapes[id] = 0;
+        };
+
+        this.setTapeLength = function(id, length) {
+          $scope.tapes[id] = length;
+          this.setKeyframesStyle();
+          this.setDurationStyle();
+        };
+
+        this.setDurationStyle = function() {
+
+          var styles = "";
+          var charDuration;
+          var tapePeriod;
+
+          for (var id in $scope.tapes) {
+            if ($scope.tapes.hasOwnProperty(id)) {
+              charduration = 1000 / $scope.tapeSpeed.speed;
+              tapePeriod = ($scope.tapes[id] + settings.tapeGap) * charduration;
+              styles += durationTemplate({id:id, tapePeriod:tapePeriod});
+            }
+          }
+          $scope.duration = styles;
+        };
+
+        this.setAnimationNameStyle = function(reset) {
+          var styles = "";
+          var name;
+
+          for (var id in $scope.tapes) {
+            if ($scope.tapes.hasOwnProperty(id)) {
+              name = reset ? 'none' : id;
+              styles += animationNameTemplate({id:id, name:name});
+            }
+          }
+          $scope.animationName = styles;
+        };
+
+        this.setKeyframesStyle = function() {
+          var styles = "";
+          var tapeLength;
+
+          for (var id in $scope.tapes) {
+            if ($scope.tapes.hasOwnProperty(id)) {
+              tapeLength = ($scope.tapes[id] + settings.tapeGap) * 20;
+              styles += keyframesTemplate({id:id, tapeLength:tapeLength});
+            }
+          }
+          $scope.keyframes = styles;
+        };
+      },
+
+      link: function(scope, elem, attrs, controller) {
+
+        scope.$watch('tapeSpeed', function(value) {
+          controller.setDurationStyle();
+        });
+
+        scope.$watch('tapeReset', function(value) {
+          controller.setAnimationNameStyle(value);
+        });
       }
     };
   });

@@ -6,8 +6,8 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/app.css">
     <style type="text/css" data-ng-bind="keyframes"></style>
-    <style type="text/css" data-ng-bind="durations"></style>
-    <style type="text/css" data-ng-bind="animationNames"></style>
+    <style type="text/css" data-ng-bind="duration"></style>
+    <style type="text/css" data-ng-bind="animationName"></style>
   </head>
   <body>
     <div class="row">
@@ -25,11 +25,13 @@
       <div data-ng-bind="score | zeropad"></div>
     </div>
     <div class="row">
-      <div id="container" ng-class="{paused: !tapeRunning, running: tapeRunning}">
+      <div id="container" ng-class="{paused: !tapeRunning, running: tapeRunning}" data-bedstead>
         <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"
-             data-loop-callback="tape1.loopStart" data-loop-counter="tape1.counter"></div>
+             data-loop-callback="tape1.loopStart" data-loop-counter="tape1.counter"
+             data-reset="tapeReset"></div>
         <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"
-             data-loop-callback="tape2.loopStart" data-loop-counter="tape2.counter"></div>
+             data-loop-callback="tape2.loopStart" data-loop-counter="tape2.counter"
+             data-reset="tapeReset"></div>
       </div>
     </div>
     <div id="controls" class="row">
