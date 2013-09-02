@@ -56,6 +56,7 @@ angular.module('heathRobinson')
     };
 
     $scope.resetTapes = function () {
+      $scope.score = 0;
       $scope.tapeRunning = false;
       $scope.tapeReset = true;
       clearInterval(charInterval);
