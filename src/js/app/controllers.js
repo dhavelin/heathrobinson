@@ -18,9 +18,10 @@ angular.module('heathRobinson')
         clearInterval(charInterval);
         $scope.score = 0;
         $scope.$apply();
-        charInterval = setInterval(newChar, 125);
+        charInterval = setInterval(newChar, $scope.tapeSpeed.speed);
       }
     };
+
 
     $scope.tape1.len = $scope.tape1.sequence.length;
     $scope.tape2.len = $scope.tape2.sequence.length;
