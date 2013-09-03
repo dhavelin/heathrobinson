@@ -1,26 +1,26 @@
 /* Directives */
 
 angular.module('heathRobinson').
-  directive('tape', function(tty2bits, settings) {
+  directive( 'tape', function(tty2bits, settings) {
 
     // Add a canvas element off-screen for creating punched tapes on
     var bodyElement = angular.element(document.body);
-    var canvasElement = angular.element("<canvas/>").attr("width", "121");
+    var canvasElement = angular.element('<canvas/>').attr('width', settings.tapeWidth.toString());
     bodyElement.append(canvasElement);
 
-    var drawCircle = function(xPos, yPos, radius, context) {
+    function drawCircle(xPos, yPos, radius, context) {
       context.beginPath();
       context.arc(xPos, yPos, radius, 0, 2 * Math.PI, false);
-      context.globalCompositeOperation="destination-out";
+      context.globalCompositeOperation = 'destination-out';
       context.fillStyle = 'black';
       context.fill();
     }
 
-    var drawTape = function(height, context) {
+    function drawTape(height, context) {
 
       // Draw the tape background
       context.beginPath();
-      context.rect(0, 0, 121, height);
+      context.rect(0, 0, settings.tapeWidth, height);
       context.fillStyle = '#eee';
       context.fill();
 
@@ -28,14 +28,14 @@ angular.module('heathRobinson').
       context.beginPath();
       context.lineWidth = 1;
       context.strokeStyle = 'red';
-      context.moveTo(0,0.5);
-      context.lineTo(121, 0.5);
+      context.moveTo(0, 0.5);
+      context.lineTo(settings.tapeWidth, 0.5);
       context.stroke();
 
     }
 
     // Draw a group of holes that represents a particular TTY character
-    var punchChar = function(ttyChar, yPos, context) {
+    function punchChar(ttyChar, yPos, context) {
       var bits = tty2bits.convert(ttyChar);
       // First hole is 18 from edge
       var xOffset = 18;
@@ -56,7 +56,7 @@ angular.module('heathRobinson').
       drawCircle(50 + xOffset, yPos, 3.5, context);
     }
 
-    var punchTape = function(sequence, context) {
+    function punchTape(sequence, context) {
       for (var i = 0; i < sequence.length; i++) {
         yPos = (20 * i) + 10;
         punchChar(sequence[i], yPos, context);
@@ -78,7 +78,7 @@ angular.module('heathRobinson').
       link: function(scope, elem, attrs, controller) {
 
         // register this tape on the bedstead
-        controller.addTape(elem[0].id);
+        controller.addTape( elem[0].id );
 
         var loopHandler = function() {
           scope.loopCounter++;
@@ -86,10 +86,10 @@ angular.module('heathRobinson').
           scope.loopCallback();
         };
 
-        elem.bind('webkitAnimationStart', loopHandler);
+        elem.bind('webkitAnimationStart',     loopHandler);
         elem.bind('webkitAnimationIteration', loopHandler);
-        elem.bind('animationstart', loopHandler);
-        elem.bind('animationiteration', loopHandler);
+        elem.bind('animationstart',           loopHandler);
+        elem.bind('animationiteration',       loopHandler);
 
         scope.$watch('ttydata', function(value) {
 
@@ -107,32 +107,29 @@ angular.module('heathRobinson').
           // Punch the tape
           punchTape(value, context);
 
-          elem.css('background-image', 'url(' + canvas.toDataURL("image/png") + ')');
+          elem.css('background-image', 'url(' + canvas.toDataURL('image/png') + ')');
 
         });
 
         scope.$watch('reset', function(value) {
           scope.loopCounter = 0;
         });
-        
+
       }
     };
   }).
   directive('bedstead', function(settings, $interpolate) {
 
-    // We can reuse angular functionality to create CSS templates 
-    var durationTemplate
-          = $interpolate('#{{id}} {-webkit-animation-duration:{{tapePeriod}}ms;' +
-                         'animation-duration:{{tapePeriod}}ms;}');
+    // We can reuse angular functionality to create CSS templates
+    var durationTemplate      = $interpolate('#{{id}} {-webkit-animation-duration:{{tapePeriod}}ms;' +
+                                             'animation-duration:{{tapePeriod}}ms;}'),
 
-    var animationNameTemplate
-          = $interpolate('#{{id}} {-webkit-animation-name:{{name}};animation-name:{{name}};}');
+        animationNameTemplate = $interpolate('#{{id}} {-webkit-animation-name:{{name}};animation-name:{{name}};}'),
 
-    var keyframesTemplate
-          = $interpolate('@-webkit-keyframes {{id}}{from {background-position: 0 0;}' +
-                         'to {background-position: 0 -{{tapeLength}}px;}}' +
-                         '@keyframes {{id}}{from {background-position: 0 0;}' +
-                         'to {background-position: 0 -{{tapeLength}}px;}}');
+        keyframesTemplate     = $interpolate('@-webkit-keyframes {{id}}{from {background-position: 0 0;}' +
+                                             'to {background-position: 0 -{{tapeLength}}px;}}' +
+                                             '@keyframes {{id}}{from {background-position: 0 0;}' +
+                                              'to {background-position: 0 -{{tapeLength}}px;}}');
 
     return {
       restrict: 'A',
@@ -140,21 +137,30 @@ angular.module('heathRobinson').
       controller: function($scope, $element, $attrs) {
 
         $scope.speeds = [
-          {description:'Slow (4 chars/sec)', speed: 250},
-          {description:'Faster (8 chars/sec)', speed: 125},
-          {description:'Actual (1000 chars / sec)', speed: 1}
+          {
+            description: 'Slow (4 chars/sec)',
+            speed: 250
+          },
+          {
+            description: 'Faster (8 chars/sec)',
+            speed: 125
+          },
+          {
+            description: 'Actual (1000 chars / sec)',
+            speed: 1
+          }
         ];
         $scope.tapeSpeed = $scope.speeds[1]; // Faster
 
         $scope.tapes = {};
-   
+
         this.addTape = function(id) {
           $scope.tapes[id] = {
-                               len: {
-                                 chars: 0,
-                                 pixels: 0
-                               }
-                             };
+            len: {
+              chars: 0,
+              pixels: 0
+            }
+           };
         };
 
         this.setTapeLength = function(id, len) {
@@ -166,37 +172,44 @@ angular.module('heathRobinson').
 
         this.setDurationStyle = function() {
 
-          var styles = "";
+          var styles = '';
           var tapePeriod;
 
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
               tapePeriod = ($scope.tapes[id].len.chars + settings.tapeGap) * $scope.tapeSpeed.speed;
-              styles += durationTemplate({ id: id, tapePeriod: tapePeriod });
+              styles += durationTemplate({
+                id: id,
+                tapePeriod: tapePeriod
+              });
             }
           }
           $scope.duration = styles;
         };
 
         this.setAnimationNameStyle = function(reset) {
-          var styles = "";
-          var name;
+          var styles = '';
 
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
-              name = reset ? 'none' : id;
-              styles += animationNameTemplate({ id: id, name: name });
+              styles += animationNameTemplate({
+                id: id,
+                name: reset ? 'none' : id
+              });
             }
           }
           $scope.animationName = styles;
         };
 
         this.setKeyframesStyle = function() {
-          var styles = "";
+          var styles = '';
 
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
-              styles += keyframesTemplate({ id: id, tapeLength: $scope.tapes[id].len.pixels });
+              styles += keyframesTemplate({
+                id: id,
+                tapeLength: $scope.tapes[id].len.pixels
+              });
             }
           }
           $scope.keyframes = styles;

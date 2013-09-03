@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
-    
+
     dir_src:             'src',
     dir_target:          'target',
     dir_temp:            'temp',
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
     dir_src_css_app:     '<%= dir_src_css %>/app',
     dir_src_css_lib:     '<%= dir_src_css %>/lib',
-    
+
     clean: ['<%= dir_target %>', '<%= dir_temp %>/'],
 
     concat: {
@@ -46,13 +46,23 @@ module.exports = function(grunt) {
       }
     },
 
+    jshint: {
+      all: ['<%= dir_src_js_app %>/*.js'],
+      options: {
+        curly: true,
+        eqeqeq: true,
+        quotmark: true,
+        trailing: true
+      },
+    },
+
     ngmin: {
       app: {
         src: ['<%= dir_temp %>/app.concat.js'],
         dest: '<%= dir_target_js %>/app.js'
       }
     },
-  
+
     /**
     uglify: {
       options: {
@@ -77,7 +87,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     htmlmin: {
       options: {
         removeComments: true,
@@ -100,7 +110,7 @@ module.exports = function(grunt) {
         ]
       }
     },
-    
+
     copy: {
       static: {
         files: {
@@ -118,17 +128,18 @@ module.exports = function(grunt) {
         ]
       }
     }
-    
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-less');
   // grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-ngmin');
-  
+
   // Default tasks
-  grunt.registerTask('default', ['less', 'concat', 'ngmin', 'htmlmin', 'copy']);
+  grunt.registerTask('default', ['jshint', 'less', 'concat', 'ngmin', 'htmlmin', 'copy']);
 };

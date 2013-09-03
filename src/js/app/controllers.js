@@ -1,7 +1,10 @@
 /* Controllers */
 
 angular.module('heathRobinson')
-  .controller('machine', function($scope, settings, initialData) {
+  .controller('machine', function( $scope, settings, initialData) {
+
+    var charTimer;
+    var charCounter = 0;
 
     $scope.tape1 = {
       sequence: initialData.cipher,
@@ -15,43 +18,33 @@ angular.module('heathRobinson')
       sequence: initialData.key,
       counter: 0,
       loopStart: function() {
-        clearInterval(charInterval);
+        clearInterval(charTimer);
         $scope.score = 0;
         $scope.$apply();
-        charInterval = setInterval(newChar, $scope.tapeSpeed.speed);
+        charTimer = setInterval(newChar, $scope.tapeSpeed.speed);
       }
     };
-
 
     $scope.tape1.len = $scope.tape1.sequence.length;
     $scope.tape2.len = $scope.tape2.sequence.length;
 
     $scope.score = 0;
 
-    var charInterval;
-    var charCounter = 0;
-
-    var newChar = function() {
-      $scope.score++;
-      $scope.$apply();
-      /**
-      if ($scope.score > $scope.tape1.len) {
-        clearInterval(charInterval);
-      }
-      **/
-    };
-
     $scope.togglePlaystate = function() {
       if ($scope.tapeRunning) {
+
         // tape is running so stop it
         $scope.tapeRunning = false;
-        clearInterval(charInterval);
+        clearInterval(charTimer);
+
       } else {
+
         // either the tape is stopped mid-run, or it's at the start position, ready to play
         if ($scope.tapeReset) {
           $scope.tapeRunning = true;
           $scope.tapeReset = false;
         }
+
       }
     };
 
@@ -59,7 +52,7 @@ angular.module('heathRobinson')
       $scope.score = 0;
       $scope.tapeRunning = false;
       $scope.tapeReset = true;
-      clearInterval(charInterval);
+      clearInterval(charTimer);
     };
 
     $scope.$watch('tapeSpeed', function() {
@@ -68,4 +61,18 @@ angular.module('heathRobinson')
 
     $scope.tapeRunning = false;
     $scope.tapeReset = false;
+
+    /**
+     *
+     */
+    function newChar() {
+      $scope.score++;
+      $scope.$apply();
+      /**
+      if ($scope.score > $scope.tape1.len) {
+        clearInterval(charInterval);
+      }
+      **/
+    }
+
   });
