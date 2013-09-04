@@ -1,24 +1,41 @@
 /* Controllers */
 
 angular.module('heathRobinson')
-  .controller('machine', function( $scope, settings, initialData) {
+  .controller('machine', function($scope, settings, initialData) {
 
     var charTimer;
     var charCounter = 0;
 
     $scope.tape1 = {
       sequence: initialData.cipher,
-      counter: 0,
+      seqPrint: initialData.char2print(initialData.cipher),
+      photocell: {
+        line1: 0,
+        line2: 0
+      },
+      loopCounter: 0,
+      charPosition: 0,
       loopStart: function() {
-        $scope.score = 0;
-        $scope.$apply();
       }
     };
+
     $scope.tape2 = {
       sequence: initialData.key,
-      counter: 0,
+      seqPrint: initialData.char2print(initialData.key),
+      photocell: {
+        line1: 0,
+        line2: 0
+      },
+      loopCounter: 0,
+      charPosition: 0,
       loopStart: function() {
+        var lag;
         clearInterval(charTimer);
+        if ($scope.tape2.loopCounter > 0) {
+          while ($scope.tape2.charPosition < $scope.tape2.len - 1) {
+            newChar();
+          }
+        }
         $scope.score = 0;
         $scope.$apply();
         charTimer = setInterval(newChar, $scope.tapeSpeed.speed);
@@ -50,6 +67,8 @@ angular.module('heathRobinson')
 
     $scope.resetTapes = function () {
       $scope.score = 0;
+      $scope.tape1.charPosition = $scope.tape1.len - 2;
+      $scope.tape2.charPosition = $scope.tape2.len - 2;
       $scope.tapeRunning = false;
       $scope.tapeReset = true;
       clearInterval(charTimer);
@@ -67,12 +86,17 @@ angular.module('heathRobinson')
      */
     function newChar() {
       $scope.score++;
-      $scope.$apply();
-      /**
-      if ($scope.score > $scope.tape1.len) {
-        clearInterval(charInterval);
+      if ($scope.tape1.charPosition === $scope.tape1.len - 1) {
+        $scope.tape1.charPosition = 0;
+      } else {
+        $scope.tape1.charPosition++;
       }
-      **/
+      if ($scope.tape2.charPosition === $scope.tape2.len - 1) {
+        $scope.tape2.charPosition = 0;
+      } else {
+        $scope.tape2.charPosition++;
+      }
+      $scope.$apply();
     }
 
   });

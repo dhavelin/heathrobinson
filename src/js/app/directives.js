@@ -81,9 +81,9 @@ angular.module('heathRobinson').
         controller.addTape( elem[0].id );
 
         var loopHandler = function() {
-          scope.loopCounter++;
           scope.$apply();
           scope.loopCallback();
+          scope.loopCounter++;
         };
 
         elem.bind('webkitAnimationStart',     loopHandler);
@@ -224,6 +224,28 @@ angular.module('heathRobinson').
 
         scope.$watch('tapeReset', function(value) {
           controller.setAnimationNameStyle(value);
+        });
+      }
+    };
+  }).
+  directive('photocell', function() {
+    return {
+      restrict: 'A',
+      scope: {
+        ttydata: '=',
+        position: '=',
+        title: '@'
+      },
+      template: '<div class="title">{{title}}</div>' +
+                '<div class="line">{{line1}}</div>' +
+                '<div class="line">{{line2}}</div>',
+      link: function(scope, elem, attrs) {
+
+        var lastIndex = scope.ttydata.length - 1;
+
+        scope.$watch('position', function(value) {
+          scope.line1 = scope.ttydata[scope.position];
+          scope.line2 = scope.position === lastIndex ? scope.ttydata[0] : scope.ttydata[scope.position + 1];
         });
       }
     };

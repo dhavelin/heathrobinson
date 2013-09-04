@@ -12,7 +12,22 @@ angular.module('heathRobinson').
 
   }).
 
-  service('initialData', function() {
+  service('initialData', function(tty2bits) {
+
+    this.char2print = function(ttydata) {
+      var converted = [];
+      var charString;
+      var bits = [];
+      for (var i = 0; i < ttydata.length; i++) {
+        bits = tty2bits.convert(ttydata[i]);
+        charString = '';
+        for (var j = 0; j < 5; j++) {
+          charString += bits[j] ? '\u00d7' : '\u00b7';
+        }
+        converted.push(charString);
+      }
+      return converted;
+    };
 
     // The encoded text
     this.cipher = [

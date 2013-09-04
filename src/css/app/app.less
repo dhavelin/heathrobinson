@@ -22,6 +22,7 @@
   background: url("../img/bg.jpg") #fff no-repeat top left;
   height: @tape-height;
   overflow: hidden;
+  position: relative;
 }
 .tape {
   margin-right: 20px;
@@ -33,6 +34,42 @@
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
   .animation-play-state(inherit);
+}
+.title,
+.spanning-title {
+  color: #fff;
+  background-color: #008B8B;
+  padding: 2px;
+}
+.spanning-title {
+  margin-bottom: 2px;
+}
+#photocells,
+#score {
+  top: 180px;
+  left: (@left-offset + 2.5 * @tape-width + 2 * 20);
+  position: absolute;
+  text-align: center;
+}
+#photocells {
+  top: 20px;
+  left: (@left-offset + 2 * @tape-width + 2 * 20);
+}
+#score {
+  width: @tape-width;
+  .value {
+    font-size: 18px;
+    background-color: beige;
+  }
+}
+.photocell {
+  width: @tape-width;
+  display: inline-block;
+  .line {
+    font-family: monospace;
+    font-size: 24px;
+    background-color: beige;
+  }
 }
 .paused {
   .animation-play-state(paused);
@@ -64,9 +101,9 @@ canvas {
   div {
     background-color: #008B8B;
     padding: 2px;
-    &#loops {
-      width: (@tape-width * 2 + 20);
-    }
+  }
+  .loops {
+    width: (@tape-width * 2 + 20);
   }
 }
 #counters, #counter-labels {
