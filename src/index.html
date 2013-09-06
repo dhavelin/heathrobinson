@@ -15,29 +15,37 @@
         <h1>Heath Robinson</h1>
       </div>
     </div>
-    <div id="counter-labels" class="row">
-      <div class="spanning-title loops">Loop Counters</div>
-    </div>
-    <div id="counters" class="row">
-      <div data-ng-bind="tape1.loopCounter | zeropad"></div>
-      <div data-ng-bind="tape2.loopCounter | zeropad"></div>
-    </div>
-    <div class="row">
-      <div id="container" ng-class="{paused: !tapeRunning, running: tapeRunning}" data-bedstead>
-        <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"
-             data-loop-callback="tape1.loopStart" data-loop-counter="tape1.loopCounter"
-             data-reset="tapeReset"></div>
-        <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"
-             data-loop-callback="tape2.loopStart" data-loop-counter="tape2.loopCounter"
-             data-reset="tapeReset"></div>
-        <div id="photocells">
-          <div class="spanning-title">Photocell Output</div>
-          <div class="photocell" data-photocell data-title="Tape 1" data-ttydata="tape1.seqPrint" data-position="tape1.charPosition" style="margin-right: 20px"></div>
-          <div class="photocell" data-photocell data-title="Tape 2" data-ttydata="tape2.seqPrint" data-position="tape2.charPosition"></div>
+    <div id="headers" class="row">
+      <div class="col-md-6">
+        <div class="title-group">Loop Counters</div>
+        <div class="counter-group">
+          <div class="counter" data-ng-bind="tape1.loopCounter | zeropad" style="margin-right: 20px;"></div>
+          <div class="counter" data-ng-bind="tape2.loopCounter | zeropad"></div>
         </div>
-        <div id="score">
-          <div class="title">Score</div>
-          <div class="value" data-ng-bind="score | zeropad"></div>
+      </div>
+    </div>
+    <div id="machine" class="row">
+      <div class="col-md-6">
+        <div id="bedstead" ng-class="{paused: !tapeRunning, running: tapeRunning}" data-bedstead>
+          <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence" style="margin-right: 20px"
+               data-loop-callback="tape1.loopStart" data-loop-counter="tape1.loopCounter"
+               data-reset="tapeReset"></div>
+          <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"
+               data-loop-callback="tape2.loopStart" data-loop-counter="tape2.loopCounter"
+               data-reset="tapeReset"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="displays">
+          <div id="photocells">
+            <div class="title-group">Photocell Output</div>
+            <div class="photocell" data-photocell data-title="Tape 1" data-ttydata="tape1.seqPrint" data-position="tape1.charPosition" style="margin-right: 20px"></div>
+            <div class="photocell" data-photocell data-title="Tape 2" data-ttydata="tape2.seqPrint" data-position="tape2.charPosition"></div>
+          </div>
+          <div id="score">
+            <div class="title">Score</div>
+            <div class="counter" data-ng-bind="score | zeropad"></div>
+          </div>
         </div>
       </div>
     </div>

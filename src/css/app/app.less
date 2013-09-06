@@ -1,6 +1,139 @@
 @tape-width: 121px;
 @tape-height: 400px;
-@left-offset: 100px;
+
+// Mixins
+
+.center {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.heading {
+  color: #fff;
+  background-color: #008B8B;
+  padding: 2px;
+}
+
+.value {
+  background-color: beige;
+  font-size: 18px;
+}
+
+.tape-width {
+  display: inline-block;
+  width: @tape-width;
+}
+
+
+// Main structural elements
+
+#headers,
+#machine,
+#controls {
+  text-align: center;
+}
+
+#headers {
+  border-bottom: 1px solid #aaa;
+  border-top: 1px solid #aaa;
+}
+
+#headers, #controls {
+  background-color: #ddd;
+}
+
+#machine {
+  background: url("../img/bg.jpg") #fff no-repeat top left;
+}
+
+#controls {
+  padding: 8px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+
+canvas {                  // off-screen, for constructing tape images
+  margin-left:-400px;
+  position: absolute;
+}
+
+// Structural sub-elements
+
+#bedstead,
+#displays {
+  .center;
+}
+
+#bedstead {
+  height: @tape-height;
+  width: (2 * @tape-width + 20);
+  overflow: hidden;
+  position: relative;
+}
+
+
+// Other elements
+
+.tape {
+  height: @tape-height;
+  background-position: 0 0;
+  background-repeat: repeat-y;
+  .tape-width;
+  .animation-iteration-count(infinite);
+  .animation-timing-function(linear);
+  .animation-play-state(inherit);
+}
+
+#photocells,
+#score {
+  margin-top: 20px;
+  .center;
+}
+
+#photocells {
+  width: (2 * @tape-width + 20);
+}
+
+#score {
+  .tape-width;
+}
+
+.photocell {
+  .tape-width;
+  .line {
+    .value;
+    font-family: monospace;
+    font-size: 24px;
+  }
+}
+
+.counter-group,
+.title-group {
+  .center;
+  width: (2 * @tape-width + 20);
+}
+
+.title,
+.title-group {
+  .heading;
+}
+
+.title-group {
+  margin-bottom: 2px;
+}
+
+.counter {
+  .value;
+  .tape-width;
+}
+
+.btn {
+  margin-right: 8px;
+  width: 8em;
+}
+
+
+// Animation styles
 
 .animation-play-state (@state) {
   -webkit-animation-play-state: @state;
@@ -17,106 +150,10 @@
   animation-timing-function: @timing;
 }
 
-#container {
-  padding-left: @left-offset;
-  background: url("../img/bg.jpg") #fff no-repeat top left;
-  height: @tape-height;
-  overflow: hidden;
-  position: relative;
-}
-.tape {
-  margin-right: 20px;
-  display: inline-block;
-  height: @tape-height;
-  width: @tape-width;
-  background-position: 0 0;
-  background-repeat: repeat-y;
-  .animation-iteration-count(infinite);
-  .animation-timing-function(linear);
-  .animation-play-state(inherit);
-}
-.title,
-.spanning-title {
-  color: #fff;
-  background-color: #008B8B;
-  padding: 2px;
-}
-.spanning-title {
-  margin-bottom: 2px;
-}
-#photocells,
-#score {
-  top: 180px;
-  left: (@left-offset + 2.5 * @tape-width + 2 * 20);
-  position: absolute;
-  text-align: center;
-}
-#photocells {
-  top: 20px;
-  left: (@left-offset + 2 * @tape-width + 2 * 20);
-}
-#score {
-  width: @tape-width;
-  .value {
-    font-size: 18px;
-    background-color: beige;
-  }
-}
-.photocell {
-  width: @tape-width;
-  display: inline-block;
-  .line {
-    font-family: monospace;
-    font-size: 24px;
-    background-color: beige;
-  }
-}
 .paused {
   .animation-play-state(paused);
 }
+
 .running {
   .animation-play-state(running);
-}
-canvas {
-  margin-left:-400px;
-  position: absolute;
-}
-.btn {
-  margin-right: 8px;
-  width: 8em;
-}
-#counters, #counter-labels, #controls {
-  background-color: #ddd;
-}
-#counters {
-  border-bottom: 1px solid #aaa;
-  div {
-    font-size: 18px;
-    background-color: beige;
-  }
-}
-#counter-labels {
-  border-top: 1px solid #aaa;
-  color: #fff;
-  div {
-    background-color: #008B8B;
-    padding: 2px;
-  }
-  .loops {
-    width: (@tape-width * 2 + 20);
-  }
-}
-#counters, #counter-labels {
-  padding-left: @left-offset;
-  div {
-    width: @tape-width;
-    display: inline-block;
-    margin-right: 20px;
-    text-align: center;
-  }
-}
-#controls {
-  padding: 8px;
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa;
 }
