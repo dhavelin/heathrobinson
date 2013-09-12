@@ -1,4 +1,5 @@
 @tape-width: 121px;
+@double-tape-width: (2 * @tape-width + 20);
 @tape-height: 400px;
 
 // Mixins
@@ -27,29 +28,26 @@
 
 // Main structural elements
 
-#headers,
-#machine,
 #controls {
   text-align: center;
+  padding: 8px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
 
-#headers {
+#counters {
   border-bottom: 1px solid #aaa;
   border-top: 1px solid #aaa;
 }
 
-#headers, #controls {
+#counters, #controls {
   background-color: #ddd;
 }
 
 #machine {
-  background: url("../img/bg.jpg") #fff no-repeat top left;
-}
-
-#controls {
-  padding: 8px;
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa;
+  background: url("../img/photocells.png"), url("../img/bg.jpg") #fff;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 24px 135px, top left;
 }
 
 canvas {                  // off-screen, for constructing tape images
@@ -59,14 +57,9 @@ canvas {                  // off-screen, for constructing tape images
 
 // Structural sub-elements
 
-#bedstead,
-#displays {
-  .center;
-}
-
 #bedstead {
   height: @tape-height;
-  width: (2 * @tape-width + 20);
+  width: (4 * @tape-width + 4 * 20);
   overflow: hidden;
   position: relative;
 }
@@ -76,55 +69,66 @@ canvas {                  // off-screen, for constructing tape images
 
 .tape {
   height: @tape-height;
-  background-position: 0 0;
+  width: @tape-width;
+  background-position: 0 180px;
   background-repeat: repeat-y;
-  .tape-width;
+  margin-left: 20px;
+  display: inline-block;
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
   .animation-play-state(inherit);
 }
 
-#photocells,
-#score {
-  margin-top: 20px;
-  .center;
-}
-
 #photocells {
-  width: (2 * @tape-width + 20);
-}
-
-#score {
-  .tape-width;
+  width: @double-tape-width;
+  margin-left: 20px;
+  vertical-align: bottom;
+  margin-bottom: 223px;
+  display: inline-block;
+  text-align: center;
 }
 
 .photocell {
-  .tape-width;
+  background-color: beige;
+  width: @tape-width;
+  display: inline-block;
   .line {
     .value;
-    font-family: monospace;
-    font-size: 24px;
+    font-family: 'Droid Sans Mono', sans-serif;
+    font-size: 16px;
+    line-height: 1;
+    height: 20px;
   }
 }
 
-.counter-group,
-.title-group {
-  .center;
-  width: (2 * @tape-width + 20);
+h2 {
+  color: #fff;
+  background-color: #008b8b;
+  padding: 2px;
+  margin: 0 0 0 20px;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  width: @tape-width;
+  display: inline-block;
+  &.wide {
+    width: @double-tape-width;
+  }
 }
 
-.title,
-.title-group {
-  .heading;
-}
-
-.title-group {
-  margin-bottom: 2px;
+h3 {
+  margin: 0;
+  font-size: 16px;
+  font-family: 'Droid Sans Mono', sans-serif;
 }
 
 .counter {
   .value;
-  .tape-width;
+  display: inline-block;
+  width: @tape-width;
+  margin-left: 20px;
+  text-align: center;
+  font-family: 'Droid Sans Mono', sans-serif;
 }
 
 .btn {

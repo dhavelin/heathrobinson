@@ -1,7 +1,7 @@
 /* Directives */
 
 angular.module('heathRobinson').
-  directive( 'tape', function(tty2bits, settings) {
+  directive( 'tape', function(converters, settings) {
 
     // Add a canvas element off-screen for creating punched tapes on
     var bodyElement = angular.element(document.body);
@@ -36,7 +36,7 @@ angular.module('heathRobinson').
 
     // Draw a group of holes that represents a particular TTY character
     function punchChar(ttyChar, yPos, context) {
-      var bits = tty2bits.convert(ttyChar);
+      var bits = converters.char2bits(ttyChar);
       // First hole is 18 from edge
       var xOffset = 18;
       var xPos;
@@ -70,19 +70,21 @@ angular.module('heathRobinson').
 
       scope: {
         ttydata: '=',
-        loopCallback: '=',
         loopCounter: '=',
-        reset: '='
+        reset: '=',
+        tapeObject: '='
       },
 
       link: function(scope, elem, attrs, controller) {
 
         // register this tape on the bedstead
-        controller.addTape( elem[0].id );
+        controller.addTape(elem[0].id);
+
+        scope.loopCounter = 0;
 
         var loopHandler = function() {
           scope.$apply();
-          scope.loopCallback();
+          scope.tapeObject.loopStart();
           scope.loopCounter++;
         };
 
@@ -107,12 +109,17 @@ angular.module('heathRobinson').
           // Punch the tape
           punchTape(value, context);
 
+          scope.tapeObject.len = value.length;
+          scope.tapeObject.startPosition = value.length - 2;
+          scope.tapeObject.charPosition = scope.tapeObject.startPosition;
+
           elem.css('background-image', 'url(' + canvas.toDataURL('image/png') + ')');
 
         });
 
         scope.$watch('reset', function(value) {
           scope.loopCounter = 0;
+          scope.tapeObject.charPosition = scope.tapeObject.startPosition;
         });
 
       }
@@ -126,10 +133,10 @@ angular.module('heathRobinson').
 
         animationNameTemplate = $interpolate('#{{id}} {-webkit-animation-name:{{name}};animation-name:{{name}};}'),
 
-        keyframesTemplate     = $interpolate('@-webkit-keyframes {{id}}{from {background-position: 0 0;}' +
-                                             'to {background-position: 0 -{{tapeLength}}px;}}' +
-                                             '@keyframes {{id}}{from {background-position: 0 0;}' +
-                                              'to {background-position: 0 -{{tapeLength}}px;}}');
+        keyframesTemplate     = $interpolate('@-webkit-keyframes {{id}}{from {background-position: 0 180px;}' +
+                                             'to {background-position: 0 -{{tapeLength - 180}}px;}}' +
+                                             '@keyframes {{id}}{from {background-position: 0 180px;}' +
+                                              'to {background-position: 0 -{{tapeLength - 180}}px;}}');
 
     return {
       restrict: 'A',
@@ -137,6 +144,10 @@ angular.module('heathRobinson').
       controller: function($scope, $element, $attrs) {
 
         $scope.speeds = [
+          {
+            description: 'Really Slow (0.5 chars/sec)',
+            speed: 2000
+          },
           {
             description: 'Slow (4 chars/sec)',
             speed: 250
@@ -228,7 +239,8 @@ angular.module('heathRobinson').
       }
     };
   }).
-  directive('photocell', function() {
+  directive('photocell', function(converters) {
+
     return {
       restrict: 'A',
       scope: {
@@ -236,16 +248,17 @@ angular.module('heathRobinson').
         position: '=',
         title: '@'
       },
-      template: '<div class="title">{{title}}</div>' +
-                '<div class="line">{{line1}}</div>' +
+      template: '<h2 style="margin-left:0">{{title}}</h2>' +
+                '<div class="line" style="margin-top: 4px">{{line1}}</div>' +
                 '<div class="line">{{line2}}</div>',
       link: function(scope, elem, attrs) {
 
-        var lastIndex = scope.ttydata.length - 1;
+        var printableChars = converters.char2print(scope.ttydata);
 
         scope.$watch('position', function(value) {
-          scope.line1 = scope.ttydata[scope.position];
-          scope.line2 = scope.position === lastIndex ? scope.ttydata[0] : scope.ttydata[scope.position + 1];
+          var lastIndex = printableChars.length - 1;
+          scope.line1 = printableChars[scope.position];
+          scope.line2 = scope.position === lastIndex ? printableChars[0] : printableChars[scope.position + 1];
         });
       }
     };

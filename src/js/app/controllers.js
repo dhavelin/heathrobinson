@@ -1,49 +1,34 @@
 /* Controllers */
 
 angular.module('heathRobinson')
-  .controller('machine', function($scope, settings, initialData) {
+  .controller('machine', function($scope, settings, initialData, converters) {
 
     var charTimer;
-    var charCounter = 0;
 
     $scope.tape1 = {
       sequence: initialData.cipher,
-      seqPrint: initialData.char2print(initialData.cipher),
-      photocell: {
-        line1: 0,
-        line2: 0
-      },
       loopCounter: 0,
       charPosition: 0,
-      loopStart: function() {
-      }
+      loopStart: function() {}
     };
 
     $scope.tape2 = {
       sequence: initialData.key,
-      seqPrint: initialData.char2print(initialData.key),
-      photocell: {
-        line1: 0,
-        line2: 0
-      },
       loopCounter: 0,
       charPosition: 0,
       loopStart: function() {
         var lag;
         clearInterval(charTimer);
         if ($scope.tape2.loopCounter > 0) {
-          while ($scope.tape2.charPosition < $scope.tape2.len - 1) {
-            newChar();
+          while ($scope.tape2.charPosition < $scope.tape2.startPosition) {
+            tapeAdvanced();
           }
         }
         $scope.score = 0;
         $scope.$apply();
-        charTimer = setInterval(newChar, $scope.tapeSpeed.speed);
+        charTimer = setInterval(tapeAdvanced, $scope.tapeSpeed.speed);
       }
     };
-
-    $scope.tape1.len = $scope.tape1.sequence.length;
-    $scope.tape2.len = $scope.tape2.sequence.length;
 
     $scope.score = 0;
 
@@ -67,8 +52,6 @@ angular.module('heathRobinson')
 
     $scope.resetTapes = function () {
       $scope.score = 0;
-      $scope.tape1.charPosition = $scope.tape1.len - 2;
-      $scope.tape2.charPosition = $scope.tape2.len - 2;
       $scope.tapeRunning = false;
       $scope.tapeReset = true;
       clearInterval(charTimer);
@@ -84,7 +67,7 @@ angular.module('heathRobinson')
     /**
      *
      */
-    function newChar() {
+    function tapeAdvanced() {
       $scope.score++;
       if ($scope.tape1.charPosition === $scope.tape1.len - 1) {
         $scope.tape1.charPosition = 0;
