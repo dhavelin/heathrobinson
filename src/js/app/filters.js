@@ -10,7 +10,7 @@ angular.module('heathRobinson').
    */
   filter('zeropad', function() {
     return function(num) {
-      var numAsText = num.toString();
+      var numAsText = num ? num.toString() : '0000';
       return '0000'.substring(0, 4 - numAsText.length) + numAsText;
     };
   });

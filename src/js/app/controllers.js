@@ -7,17 +7,12 @@ angular.module('heathRobinson')
 
     $scope.tape1 = {
       sequence: initialData.cipher,
-      loopCounter: 0,
-      charPosition: 0,
       loopStart: function() {}
     };
 
     $scope.tape2 = {
       sequence: initialData.key,
-      loopCounter: 0,
-      charPosition: 0,
       loopStart: function() {
-        var lag;
         clearInterval(charTimer);
         if ($scope.tape2.loopCounter > 0) {
           while ($scope.tape2.charPosition < $scope.tape2.startPosition) {
