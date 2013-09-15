@@ -117,9 +117,18 @@ angular.module('heathRobinson').
 
         });
 
-        scope.$watch('reset', function(value) {
+        scope.$on('tapeReset', function() {
           scope.loopCounter = 0;
           scope.tapeObject.charPosition = scope.tapeObject.startPosition;
+        });
+
+        scope.$on('tapeAdvanced', function() {
+          if (scope.tapeObject.charPosition === scope.tapeObject.len - 1) {
+            scope.tapeObject.charPosition = 0;
+          } else {
+            scope.tapeObject.charPosition++;
+          }
+          scope.$apply();
         });
 
       }
@@ -198,14 +207,15 @@ angular.module('heathRobinson').
           $scope.duration = styles;
         };
 
-        this.setAnimationNameStyle = function(reset) {
+        this.setAnimationNameStyle = function(on) {
+
           var styles = '';
 
           for (var id in $scope.tapes) {
             if ($scope.tapes.hasOwnProperty(id)) {
               styles += animationNameTemplate({
                 id: id,
-                name: reset ? 'none' : id
+                name: on ? id : 'none'
               });
             }
           }
@@ -233,9 +243,14 @@ angular.module('heathRobinson').
           controller.setDurationStyle();
         });
 
-        scope.$watch('tapeReset', function(value) {
-          controller.setAnimationNameStyle(value);
+        scope.$on('tapeStart', function() {
+          controller.setAnimationNameStyle(true);
         });
+
+        scope.$on('tapeReset', function() {
+          controller.setAnimationNameStyle(false);
+        });
+
       }
     };
   }).
@@ -259,6 +274,34 @@ angular.module('heathRobinson').
           var lastIndex = printableChars.length - 1;
           scope.line1 = printableChars[scope.position];
           scope.line2 = scope.position === lastIndex ? printableChars[0] : printableChars[scope.position + 1];
+        });
+
+      }
+    };
+  }).
+  directive('score', function($filter) {
+
+    return {
+      restrict: 'A',
+
+      link: function(scope, elem, attrs) {
+
+        var score = 0;
+
+        elem.text($filter('zeropad')(score));
+
+        scope.$on('tapeAdvanced', function() {
+          elem.text($filter('zeropad')(++score));
+        });
+
+        scope.$on('tapeReset', function() {
+          score = 0;
+          elem.text($filter('zeropad')(score));
+        });
+
+        scope.$on('loopRestart', function() {
+          score = 0;
+          elem.text($filter('zeropad')(score));
         });
       }
     };

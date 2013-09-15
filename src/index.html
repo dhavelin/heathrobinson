@@ -25,7 +25,7 @@
         <div>
           <div class="counter" data-ng-bind="tape1.loopCounter | zeropad"></div>
           <div class="counter" data-ng-bind="tape2.loopCounter | zeropad"></div>
-          <div class="counter" data-ng-bind="score | zeropad" style="margin-left: 91px"></div>
+          <div score class="counter" style="margin-left: 91px"></div>
         </div>
       </div>
     </div>
@@ -52,9 +52,9 @@
           <button class="btn btn-primary" ng-click="resetTapes()">
             <span class="glyphicon glyphicon-repeat"></span>
             Reset</button><button class="btn btn-primary" ng-click="togglePlaystate()">
-            <span ng-class="{'glyphicon': true, 'glyphicon-stop': !tapeReset, 'glyphicon-play': tapeReset}"></span>
-            <span ng-if="!tapeReset">Stop</span>
-            <span ng-if="tapeReset">Play</span>
+            <span ng-class="{'glyphicon': true, 'glyphicon-stop': !enablePlay, 'glyphicon-play': enablePlay}"></span>
+            <span ng-if="!enablePlay">Stop</span>
+            <span ng-if="enablePlay">Play</span>
           </button>
           <div class="form-group">
             <label class="sr-only" for="tapeSpeed">Tape Speed</label>

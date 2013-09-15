@@ -1,9 +1,12 @@
 /* Controllers */
 
 angular.module('heathRobinson')
-  .controller('machine', function($scope, settings, initialData, converters) {
+  .controller('machine', function($scope, settings, initialData) {
 
     var charTimer;
+
+    $scope.enablePlay = true;
+    $scope.tapeRunning = false;
 
     $scope.tape1 = {
       sequence: initialData.cipher,
@@ -15,66 +18,52 @@ angular.module('heathRobinson')
       loopStart: function() {
         clearInterval(charTimer);
         if ($scope.tape2.loopCounter > 0) {
+
+          // There are two timers - the outer one fires every time the tape reaches the start position,
+          // the inner one fires at regular intervals corresponding to the tape advancing one character.
+          // In case these loops lose sync, fire all outstanding inner events just before outer restarts.
           while ($scope.tape2.charPosition < $scope.tape2.startPosition) {
             tapeAdvanced();
           }
+
+          $scope.$broadcast('loopRestart');
         }
-        $scope.score = 0;
-        $scope.$apply();
         charTimer = setInterval(tapeAdvanced, $scope.tapeSpeed.speed);
       }
     };
 
-    $scope.score = 0;
-
+    // Set tapes running if not yet started, or stop if already running
     $scope.togglePlaystate = function() {
       if ($scope.tapeRunning) {
-
-        // tape is running so stop it
-        $scope.tapeRunning = false;
         clearInterval(charTimer);
-
+        $scope.tapeRunning = false;
+        $scope.$broadcast('tapeStop');
       } else {
-
-        // either the tape is stopped mid-run, or it's at the start position, ready to play
-        if ($scope.tapeReset) {
+        if ($scope.enablePlay) {
+          tapeStarted = true;
+          $scope.enablePlay = false;
           $scope.tapeRunning = true;
-          $scope.tapeReset = false;
+          $scope.$broadcast('tapeStart');
         }
-
       }
     };
 
+    // Function that resets machine to start position
     $scope.resetTapes = function () {
-      $scope.score = 0;
       $scope.tapeRunning = false;
-      $scope.tapeReset = true;
+      $scope.enablePlay = true;
+      $scope.$broadcast('tapeReset');
       clearInterval(charTimer);
     };
 
+    // When tape speed is changed, set tapes to start position
     $scope.$watch('tapeSpeed', function() {
       $scope.resetTapes();
     });
 
-    $scope.tapeRunning = false;
-    $scope.tapeReset = false;
-
-    /**
-     *
-     */
+    // Emit an event when the tapes have advanced by one character
     function tapeAdvanced() {
-      $scope.score++;
-      if ($scope.tape1.charPosition === $scope.tape1.len - 1) {
-        $scope.tape1.charPosition = 0;
-      } else {
-        $scope.tape1.charPosition++;
-      }
-      if ($scope.tape2.charPosition === $scope.tape2.len - 1) {
-        $scope.tape2.charPosition = 0;
-      } else {
-        $scope.tape2.charPosition++;
-      }
-      $scope.$apply();
+      $scope.$broadcast('tapeAdvanced');
     }
 
   });
