@@ -22,7 +22,7 @@ angular.module('heathRobinson')
           // There are two timers - the outer one fires every time the tape reaches the start position,
           // the inner one fires at regular intervals corresponding to the tape advancing one character.
           // In case these loops lose sync, fire all outstanding inner events just before outer restarts.
-          while ($scope.tape2.charPosition < $scope.tape2.startPosition) {
+          while ($scope.tape2.position.current < $scope.tape2.position.start) {
             tapeAdvanced();
           }
 
@@ -63,6 +63,25 @@ angular.module('heathRobinson')
 
     // Emit an event when the tapes have advanced by one character
     function tapeAdvanced() {
+
+      // It would be nice to push this down to the tape directive but it's
+      // important that both tapes get updated before the score is updated
+
+      $scope.tape1.position.previous = $scope.tape1.position.current;
+      if ($scope.tape1.position.current === $scope.tape1.len - 1) {
+        $scope.tape1.position.current = 0;
+      } else {
+        $scope.tape1.position.current++;
+      }
+
+      $scope.tape2.position.previous = $scope.tape2.position.current;
+      if ($scope.tape2.position.current === $scope.tape2.len - 1) {
+        $scope.tape2.position.current = 0;
+      } else {
+        $scope.tape2.position.current++;
+      }
+
+      $scope.$apply();
       $scope.$broadcast('tapeAdvanced');
     }
 

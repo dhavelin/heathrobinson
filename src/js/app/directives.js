@@ -81,6 +81,7 @@ angular.module('heathRobinson').
         controller.addTape(elem[0].id);
 
         scope.loopCounter = 0;
+        scope.tapeObject.position = {};
 
         var loopHandler = function() {
           scope.$apply();
@@ -110,8 +111,11 @@ angular.module('heathRobinson').
           punchTape(value, context);
 
           scope.tapeObject.len = value.length;
-          scope.tapeObject.startPosition = value.length - 2;
-          scope.tapeObject.charPosition = scope.tapeObject.startPosition;
+          scope.tapeObject.position = {
+            start: value.length - 1,
+            previous: value.length - 2,
+            current: value.length - 1
+          };
 
           elem.css('background-image', 'url(' + canvas.toDataURL('image/png') + ')');
 
@@ -119,16 +123,8 @@ angular.module('heathRobinson').
 
         scope.$on('tapeReset', function() {
           scope.loopCounter = 0;
-          scope.tapeObject.charPosition = scope.tapeObject.startPosition;
-        });
-
-        scope.$on('tapeAdvanced', function() {
-          if (scope.tapeObject.charPosition === scope.tapeObject.len - 1) {
-            scope.tapeObject.charPosition = 0;
-          } else {
-            scope.tapeObject.charPosition++;
-          }
-          scope.$apply();
+          scope.tapeObject.position.current = scope.tapeObject.position.start;
+          scope.tapeObject.position.previous = scope.tapeObject.position.current - 1;
         });
 
       }
@@ -264,17 +260,19 @@ angular.module('heathRobinson').
         title: '@'
       },
       template: '<h2 style="margin-left:0">{{title}}</h2>' +
-                '<div class="line" style="margin-top: 4px">{{previous}}</div>' +
-                '<div class="line">{{current}}</div>',
+                '<div class="line" style="margin-top: 4px">{{character.previous}}</div>' +
+                '<div class="line">{{character.current}}</div>',
       link: function(scope, elem, attrs) {
 
         var printableChars = converters.char2print(scope.ttydata);
 
         scope.$watch('position', function(value) {
           var lastIndex = printableChars.length - 1;
-          scope.previous = printableChars[scope.position];
-          scope.current = scope.position === lastIndex ? printableChars[0] : printableChars[scope.position + 1];
-        });
+          scope.character = {
+            current: printableChars[scope.position.current],
+            previous: printableChars[scope.position.previous]
+          };
+        }, true);
 
       }
     };
@@ -291,6 +289,7 @@ angular.module('heathRobinson').
         elem.text($filter('zeropad')(score));
 
         scope.$on('tapeAdvanced', function() {
+          console.log(scope.tape1.sequence[scope.tape1.position.current] + ':' + scope.tape2.sequence[scope.tape1.position.previous]);
           elem.text($filter('zeropad')(++score));
         });
 
