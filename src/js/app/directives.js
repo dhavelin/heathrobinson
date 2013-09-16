@@ -42,7 +42,7 @@ angular.module('heathRobinson').
       var xPos;
 
       for(var n = 0; n < 5; n++) {
-        if (bits[n]) {
+        if (bits[4 - n]) {
           xPos = n * 17 + xOffset;
           // allow for sprocket hole
           if (n > 2) {
