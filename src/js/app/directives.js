@@ -264,16 +264,16 @@ angular.module('heathRobinson').
         title: '@'
       },
       template: '<h2 style="margin-left:0">{{title}}</h2>' +
-                '<div class="line" style="margin-top: 4px">{{line1}}</div>' +
-                '<div class="line">{{line2}}</div>',
+                '<div class="line" style="margin-top: 4px">{{previous}}</div>' +
+                '<div class="line">{{current}}</div>',
       link: function(scope, elem, attrs) {
 
         var printableChars = converters.char2print(scope.ttydata);
 
         scope.$watch('position', function(value) {
           var lastIndex = printableChars.length - 1;
-          scope.line1 = printableChars[scope.position];
-          scope.line2 = scope.position === lastIndex ? printableChars[0] : printableChars[scope.position + 1];
+          scope.previous = printableChars[scope.position];
+          scope.current = scope.position === lastIndex ? printableChars[0] : printableChars[scope.position + 1];
         });
 
       }
