@@ -63,7 +63,7 @@ angular.module('heathRobinson').
         bits = this.char2bits(chars[i]);
         charString = '';
         for (var j = 0; j < 5; j++) {
-          charString += bits[j] ? 'X' : '\u2022';
+          charString += bits[4 - j] ? 'X' : '\u2022';
           if (j < 4) {
             charString += ' ';
           }
