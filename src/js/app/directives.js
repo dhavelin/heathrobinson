@@ -152,20 +152,16 @@ angular.module('heathRobinson').
 
         $scope.speeds = [
           {
-            description: 'Really Slow (0.5 chars/sec)',
-            speed: 2000
-          },
-          {
             description: 'Slow (4 chars/sec)',
             speed: 250
           },
           {
-            description: 'Faster (8 chars/sec)',
+            description: 'Medium (8 chars/sec)',
             speed: 125
           },
           {
-            description: 'Actual (1000 chars / sec)',
-            speed: 1
+            description: 'Fast (10 chars / sec)',
+            speed: 100
           }
         ];
         $scope.tapeSpeed = $scope.speeds[1]; // Faster
