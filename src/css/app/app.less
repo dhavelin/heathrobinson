@@ -69,6 +69,43 @@ canvas {                  // off-screen, for constructing tape images
   position: relative;
 }
 
+#printer {
+  position: relative;
+  height: 400px;
+  .output, h2 {
+    width: 180px;
+    position: absolute;
+  }
+  .output {
+    height: 250px;
+    top: 80px;
+    background-color: #eee;
+    overflow-y: auto;
+  }
+  h2 {
+    margin-left: 0;
+    bottom: 320px;
+  }
+  h3, pre {
+    display: inline-block;
+    text-align: right;
+    width: 50%;
+    font-family: 'Droid Sans Mono', monospace;
+    padding: 0 24px 0 0;
+  }
+  h3 {
+    font-weight: bold;
+    margin: 12px 0 4px 0;
+    font-size: 13px;
+  }
+  pre {
+    background-color: inherit;
+    border: none;
+    font-size: 13px;
+    margin: 0;
+  }
+}
+
 
 // Other elements
 
@@ -99,7 +136,7 @@ canvas {                  // off-screen, for constructing tape images
   display: inline-block;
   .line {
     .value;
-    font-family: 'Droid Sans Mono', sans-serif;
+    font-family: 'Droid Sans Mono', monospace;
     font-size: 16px;
     line-height: 1;
     height: 20px;
@@ -121,19 +158,13 @@ h2 {
   }
 }
 
-h3 {
-  margin: 0;
-  font-size: 16px;
-  font-family: 'Droid Sans Mono', sans-serif;
-}
-
 .counter {
   .value;
   display: inline-block;
   width: @tape-width;
   margin-left: 20px;
   text-align: center;
-  font-family: 'Droid Sans Mono', sans-serif;
+  font-family: 'Droid Sans Mono', monospace;
 }
 
 .btn {

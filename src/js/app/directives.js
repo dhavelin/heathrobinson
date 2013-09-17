@@ -1,6 +1,7 @@
 /* Directives */
 
 angular.module('heathRobinson').
+
   directive( 'tape', function(converters, settings) {
 
     // Add a canvas element off-screen for creating punched tapes on
@@ -130,6 +131,7 @@ angular.module('heathRobinson').
       }
     };
   }).
+
   directive('bedstead', function(settings, $interpolate) {
 
     // We can reuse angular functionality to create CSS templates
@@ -250,6 +252,7 @@ angular.module('heathRobinson').
       }
     };
   }).
+
   directive('photocell', function(converters) {
 
     return {
@@ -277,6 +280,7 @@ angular.module('heathRobinson').
       }
     };
   }).
+
   directive('score', function($filter) {
 
     return {
@@ -284,13 +288,28 @@ angular.module('heathRobinson').
 
       link: function(scope, elem, attrs) {
 
+        var zeropad = function(n) {
+          return '0000'.substring(0, 5 - n.length) + n;
+        };
+
         var score = 0;
 
         elem.text($filter('zeropad')(score));
 
         scope.$on('tapeAdvanced', function() {
-          console.log(scope.tape1.sequence[scope.tape1.position.current] + ':' + scope.tape2.sequence[scope.tape1.position.previous]);
-          elem.text($filter('zeropad')(++score));
+
+          // We are XOR'ing the two least significant bits of the current and previous chars on each tape. We increment the loop
+          // score when this equals 0. A spike in this value means we might have found the wheel settings.
+          var deltaTape1 = scope.tape1.sequence[scope.tape1.position.current] ^ scope.tape1.sequence[scope.tape1.position.previous];
+          var deltaTape2 = scope.tape2.sequence[scope.tape2.position.current] ^ scope.tape2.sequence[scope.tape2.position.previous];
+          var deltaCombined = deltaTape1 ^ deltaTape2;
+          var bit0 = deltaCombined & 1;
+          var bit1 = (deltaCombined >> 1) & 1;
+          var result = bit0 ^ bit1;
+
+          if (result === 0) {
+            elem.text($filter('zeropad')(++score));
+          }
         });
 
         scope.$on('tapeReset', function() {
@@ -299,6 +318,10 @@ angular.module('heathRobinson').
         });
 
         scope.$on('loopRestart', function() {
+
+          scope.printout.loop += scope.tape2.loopCounter + '\n';
+          scope.printout.score += score + '\n';
+
           score = 0;
           elem.text($filter('zeropad')(score));
         });

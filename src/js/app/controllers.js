@@ -8,6 +8,11 @@ angular.module('heathRobinson')
     $scope.enablePlay = true;
     $scope.tapeRunning = false;
 
+    $scope.printout = {
+      loop: '',
+      score: ''
+    };
+
     $scope.tape1 = {
       sequence: initialData.cipher,
       loopStart: function() {}
@@ -52,6 +57,10 @@ angular.module('heathRobinson')
     $scope.resetTapes = function () {
       $scope.tapeRunning = false;
       $scope.enablePlay = true;
+      $scope.printout = {
+        loop: '',
+        score: ''
+      };
       $scope.$broadcast('tapeReset');
       clearInterval(charTimer);
     };

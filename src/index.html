@@ -45,6 +45,13 @@
           </div>
         </div>
       </div>
+      <div id="printer" class="col-md-6" >
+        <h2>Printer Output</h2>
+        <div class="output">
+          <h3>Loop</h3><h3>Score</h3>
+          <pre>{{printout.loop}}</pre><pre>{{printout.score}}</pre>
+        </div>
+      </div>
     </div>
     <div id="controls" class="row">
       <div class="col-md-12">
@@ -54,7 +61,7 @@
             Reset</button><button class="btn btn-primary" ng-click="togglePlaystate()">
             <span ng-class="{'glyphicon': true, 'glyphicon-stop': !enablePlay, 'glyphicon-play': enablePlay}"></span>
             <span ng-if="!enablePlay">Stop</span>
-            <span ng-if="enablePlay">Play</span>
+            <span ng-if="enablePlay">Start</span>
           </button>
           <div class="form-group">
             <label class="sr-only" for="tapeSpeed">Tape Speed</label>
