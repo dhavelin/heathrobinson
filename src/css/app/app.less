@@ -49,6 +49,23 @@ h1 {
   background-color: #ddd;
 }
 
+#counters, #machine {
+  h2 {
+    color: #fff;
+    background-color: #008b8b;
+    padding: 2px;
+    margin: 0 0 0 20px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    width: @tape-width;
+    display: inline-block;
+    &.wide {
+      width: @double-tape-width;
+    }
+  }
+}
+
 #machine {
   background: url("../img/photocells.png"), url("../img/bg.jpg") #fff;
   background-repeat: no-repeat, no-repeat;
@@ -140,21 +157,6 @@ canvas {                  // off-screen, for constructing tape images
     font-size: 16px;
     line-height: 1;
     height: 20px;
-  }
-}
-
-h2 {
-  color: #fff;
-  background-color: #008b8b;
-  padding: 2px;
-  margin: 0 0 0 20px;
-  font-size: 14px;
-  line-height: 1.4;
-  text-align: center;
-  width: @tape-width;
-  display: inline-block;
-  &.wide {
-    width: @double-tape-width;
   }
 }
 
