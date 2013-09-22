@@ -29,7 +29,7 @@
 // Main structural elements
 
 h1 {
-  padding: 4px 20px;
+  padding: 4px 20px 4px 0;
   margin: 0;
 }
 
@@ -40,12 +40,18 @@ h1 {
   border-bottom: 1px solid #aaa;
 }
 
-#counters {
+#headers {
   border-bottom: 1px solid #aaa;
   border-top: 1px solid #aaa;
-  #loop {
-    width: (2 * @tape-width + 20);
+  #tape-headers {
     margin: 0 auto;
+    width: (2 * @tape-width + 20);
+  }
+  .tape-header {
+    width: @tape-width;
+    display: inline-block;
+    text-align: center;
+    background-color: beige;
   }
   h2 {
     color: #fff;
@@ -58,15 +64,15 @@ h1 {
   }
 }
 
-#counters, #controls {
+#headers, #controls {
   background-color: #ddd;
 }
 
 #machine {
   background: url("../img/bg.jpg") #fff;
   background-repeat: no-repeat;
-  background-size: 1848px 1441px;
-  -webkit-background-size: 1848px 1441px;
+  background-size: 1170px 400px;
+  -webkit-background-size: 1170px 400px;
   background-position: top left;
   position: relative;
   h2 {
@@ -149,7 +155,6 @@ canvas {                  // off-screen, for constructing tape images
     text-align: center;
     color: #fff;
     font-weight: normal;
-    padding: 2px;
     background-color: #008b8b;
     padding: 4px;
     &.bits {
@@ -177,10 +182,22 @@ canvas {                  // off-screen, for constructing tape images
 }
 
 #score {
-  width: @tape-width;
   margin: 20px auto 0 auto;
-  h2 {
-    margin-bottom: 0;
+  th {
+    text-align: center;
+    color: #fff;
+    font-weight: normal;
+    background-color: #008b8b;
+    padding: 4px;
+  }
+  td {
+    padding: 8px;
+    background-color: beige;
+    font-size: 16px;
+    font-family: 'Droid Sans Mono', monospace;
+  }
+  td, th {
+    line-height: 1;
   }
 }
 

@@ -18,9 +18,20 @@ angular.module('heathRobinson')
       loopStart: function() {}
     };
 
+    //var lastTime = 0;
+
     $scope.tape2 = {
       sequence: initialData.key,
       loopStart: function() {
+
+        /**
+
+        var timeNow = Date.now();
+
+        console.log(timeNow - lastTime);
+        lastTime = timeNow;
+        **/
+
         clearInterval(charTimer);
         if ($scope.tape2.loopCounter > 0) {
 
