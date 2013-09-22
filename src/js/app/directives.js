@@ -126,6 +126,12 @@ angular.module('heathRobinson').
           scope.loopCounter = 0;
           scope.tapeObject.position.current = scope.tapeObject.position.start;
           scope.tapeObject.position.previous = scope.tapeObject.position.current - 1;
+          elem[0].style.backgroundPosition = '';
+        });
+
+        scope.$on('tapeStop', function() {
+          var stopPosition = -20 * (scope.tapeObject.position.current + 1) + 180;
+          elem[0].style.backgroundPosition = '0 ' + stopPosition + 'px';
         });
 
       }
@@ -162,6 +168,10 @@ angular.module('heathRobinson').
           {
             description: 'Fast (10 chars / sec)',
             speed: 100
+          },
+          {
+            description: ' Very Fast (50 chars / sec)',
+            speed: 20
           }
         ];
         $scope.tapeSpeed = $scope.speeds[1]; // Faster
@@ -242,6 +252,10 @@ angular.module('heathRobinson').
         });
 
         scope.$on('tapeReset', function() {
+          controller.setAnimationNameStyle(false);
+        });
+
+        scope.$on('tapeStop', function() {
           controller.setAnimationNameStyle(false);
         });
 
