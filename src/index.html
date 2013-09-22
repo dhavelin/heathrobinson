@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Heath Robinson Simulator</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/app.css?1">
     <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
     <style type="text/css" data-ng-bind="keyframes"></style>
     <style type="text/css" data-ng-bind="duration"></style>
@@ -12,46 +12,67 @@
   </head>
   <body>
     <div class="row">
-      <div class="col-md-12">
+
+      <div class="col-xs-12">
         <h1>
           <img src="img/title.png" alt="Stack Overflow" title="Heath Robinson" />
         </h1>
       </div>
+
     </div>
+
     <div id="counters" class="row">
-      <div class="col-md-6">
-        <h2 class="wide">Loop Counters</h2>
-        <h2 style="margin-left: 91px">Score</h2>
-        <div>
+
+      <div class="col-xs-4">
+        <div id="loop">
+          <h2>Loop Counters</h2>
           <div class="counter" data-ng-bind="tape1.loopCounter | zeropad"></div>
-          <div class="counter" data-ng-bind="tape2.loopCounter | zeropad"></div>
-          <div score class="counter" style="margin-left: 91px"></div>
+          <div class="counter" data-ng-bind="tape2.loopCounter | zeropad" style="margin-left: 20px"></div>
         </div>
       </div>
+
     </div>
+
     <div id="machine" class="row">
-      <div class="col-md-6">
+
+      <div class="col-xs-4">
         <div id="bedstead" ng-class="{paused: !tapeRunning, running: tapeRunning}" data-bedstead>
           <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"
                data-loop-counter="tape1.loopCounter"
                data-reset="tapeReset" data-tape-object="tape1"></div>
           <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"
                data-loop-counter="tape2.loopCounter"
-               data-reset="tapeReset" data-tape-object="tape2"></div>
-          <div id="photocells">
-            <h2 class="wide" style="margin-left:0;margin-bottom:2px">Photocell Output</h2>
-            <div class="photocell" data-photocell data-title="Tape 1" data-ttydata="tape1.sequence" data-position="tape1.position"></div>
-            <div class="photocell" data-photocell data-title="Tape 2" data-ttydata="tape2.sequence" data-position="tape2.position" style="margin-left: 20px"></div>
+               data-reset="tapeReset" data-tape-object="tape2" style="margin-left: 20px"></div>
+        </div>
+      </div>
+
+      <div class="col-xs-4" style="text-align: center">
+
+        <div id="photocells">
+          <h2>Photocell Output</h2>
+          <div data-photocell data-title="Ciphertext" data-symbol="Z" data-ttydata="tape1.sequence" data-position="tape1.position"></div>
+          <div data-photocell data-title="Partial Key"  data-symbol="K" data-ttydata="tape2.sequence" data-position="tape2.position"></div>
+        </div>
+
+        <div id="score">
+          <h2>Score</h2>
+          <div>
+            <div score class="counter"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-xs-4">
+        <div id="printer">
+          <h2>Printer Output</h2>
+          <div class="output">
+            <h3>Loop</h3><h3>Score</h3>
+            <pre>{{printout.loop}}</pre><pre>{{printout.score}}</pre>
           </div>
         </div>
       </div>
-      <div id="printer" class="col-md-6" >
-        <h2>Printer Output</h2>
-        <div class="output">
-          <h3>Loop</h3><h3>Score</h3>
-          <pre>{{printout.loop}}</pre><pre>{{printout.score}}</pre>
-        </div>
-      </div>
+
     </div>
     <div id="controls" class="row">
       <div class="col-md-12">
@@ -83,6 +104,9 @@
             </li>
             <li>
               <p>Tony Sale, <a href="http://www.codesandciphers.org.uk/virtualbp/hrob/hrrbld.pdf">The rebuilding of Heath Robinson</a>, 2001.</p>
+            </li>
+            <li>
+              <p>Frank Carter, <a href="http://www.bletchleypark.org/shop/p.rhtm/139874/561513-Codebreaking_with_the_Colossus_Computer_By_Frank_Carter.html">Codebreaking with the Colossus Computer (Report No. 1)</a>, Bletchley Park Trust, Bletchley Park, 2008.</p>
             </li>
             <li>
               <p>B. Jack Copeland, and others, <a href="http://ukcatalogue.oup.com/product/9780199578146.do">Colossus: The Secrets of Bletchley Park's Code-Breaking Computers</a>, pp.47-92, Oxford University Press, Oxford and New York, 2006.</p>

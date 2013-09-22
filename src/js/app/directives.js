@@ -253,14 +253,21 @@ angular.module('heathRobinson').
 
     return {
       restrict: 'A',
+      replace: true,
       scope: {
         ttydata: '=',
         position: '=',
-        title: '@'
+        title: '@',
+        symbol: '@'
       },
-      template: '<h2 style="margin-left:0">{{title}}</h2>' +
-                '<div class="line" style="margin-top: 4px">{{character.previous}}</div>' +
-                '<div class="line">{{character.current}}</div>',
+      template: '<table>' +
+                '<thead><tr><th colspan="2">{{title}}</th></tr></thead>' +
+                '<tbody>' +
+                '<tr><th>{{symbol}}&#x305;</th><td>{{character.previous}}</td></tr>' +
+                '<tr><th>{{symbol}}</th><td>{{character.current}}</td></tr>' +
+                '</tbody>' +
+                '<thead><tr><th></th><th class="bits">b<sub>5</sub> b<sub>4</sub> b<sub>3</sub> b<sub>2</sub> b<sub>1</sub></th></tr></thead>' +
+                '</table>',
       link: function(scope, elem, attrs) {
 
         var printableChars = converters.char2print(scope.ttydata);

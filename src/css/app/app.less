@@ -43,33 +43,43 @@ h1 {
 #counters {
   border-bottom: 1px solid #aaa;
   border-top: 1px solid #aaa;
+  #loop {
+    width: (2 * @tape-width + 20);
+    margin: 0 auto;
+  }
+  h2 {
+    color: #fff;
+    background-color: #008b8b;
+    padding: 2px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+  }
 }
 
 #counters, #controls {
   background-color: #ddd;
 }
 
-#counters, #machine {
+#machine {
+  background: url("../img/bg.jpg") #fff;
+  background-repeat: no-repeat;
+  background-size: 1848px 1441px;
+  -webkit-background-size: 1848px 1441px;
+  background-position: top left;
+  position: relative;
   h2 {
+    display: block;
+    margin: 0 0 2px 0;
+    width: 100%;
     color: #fff;
     background-color: #008b8b;
     padding: 2px;
-    margin: 0 0 0 20px;
     font-size: 14px;
     line-height: 1.4;
     text-align: center;
-    width: @tape-width;
-    display: inline-block;
-    &.wide {
-      width: @double-tape-width;
-    }
   }
-}
-
-#machine {
-  background: url("../img/photocells.png"), url("../img/bg.jpg") #fff;
-  background-repeat: no-repeat, no-repeat;
-  background-position: 24px 135px, top left;
 }
 
 canvas {                  // off-screen, for constructing tape images
@@ -80,28 +90,20 @@ canvas {                  // off-screen, for constructing tape images
 // Structural sub-elements
 
 #bedstead {
+  background: url("../img/photocells.png") no-repeat 0 141px;
   height: @tape-height;
-  width: (4 * @tape-width + 4 * 20);
+  width: (2 * @tape-width + 20);
   overflow: hidden;
-  position: relative;
+  margin: 0 auto;
 }
 
 #printer {
-  position: relative;
-  height: 400px;
-  .output, h2 {
-    width: 180px;
-    position: absolute;
-  }
+  margin: 20px auto 0 auto;
+  width: 180px;
   .output {
     height: 250px;
-    top: 80px;
     background-color: #eee;
     overflow-y: auto;
-  }
-  h2 {
-    margin-left: 0;
-    bottom: 320px;
   }
   h3, pre {
     display: inline-block;
@@ -109,16 +111,15 @@ canvas {                  // off-screen, for constructing tape images
     width: 50%;
     font-family: 'Droid Sans Mono', monospace;
     padding: 0 24px 0 0;
+    font-size: 13px;
   }
   h3 {
     font-weight: bold;
     margin: 12px 0 4px 0;
-    font-size: 13px;
   }
   pre {
     background-color: inherit;
     border: none;
-    font-size: 13px;
     margin: 0;
   }
 }
@@ -131,7 +132,6 @@ canvas {                  // off-screen, for constructing tape images
   width: @tape-width;
   background-position: 0 180px;
   background-repeat: repeat-y;
-  margin-left: 20px;
   display: inline-block;
   .animation-iteration-count(infinite);
   .animation-timing-function(linear);
@@ -139,24 +139,48 @@ canvas {                  // off-screen, for constructing tape images
 }
 
 #photocells {
-  width: @double-tape-width;
-  margin-left: 20px;
-  vertical-align: bottom;
-  margin-bottom: 223px;
   display: inline-block;
-  text-align: center;
+  margin: 20px auto 0 auto;
+  table {
+    display: inline-block;
+    border-right: 4px solid #008b8b;
+  }
+  th {
+    text-align: center;
+    color: #fff;
+    font-weight: normal;
+    padding: 2px;
+    background-color: #008b8b;
+    padding: 4px;
+    &.bits {
+      font-family: 'Droid Sans Mono', monospace;
+      font-size: 12px;
+      text-align: justify;
+      padding: 2px 6px 0 6px;
+      // A single line will not normally justify so we can fake a following line
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+  td {
+    padding: 8px;
+    background-color: beige;
+    font-size: 16px;
+    font-family: 'Droid Sans Mono', monospace;
+  }
+  td, th {
+    line-height: 1;
+  }
 }
 
-.photocell {
-  background-color: beige;
+#score {
   width: @tape-width;
-  display: inline-block;
-  .line {
-    .value;
-    font-family: 'Droid Sans Mono', monospace;
-    font-size: 16px;
-    line-height: 1;
-    height: 20px;
+  margin: 20px auto 0 auto;
+  h2 {
+    margin-bottom: 0;
   }
 }
 
@@ -164,7 +188,6 @@ canvas {                  // off-screen, for constructing tape images
   .value;
   display: inline-block;
   width: @tape-width;
-  margin-left: 20px;
   text-align: center;
   font-family: 'Droid Sans Mono', monospace;
 }
