@@ -339,6 +339,8 @@ angular.module('heathRobinson').
             var bit1 = (deltaCombined >> 1) & 1;
             var result = bit0 ^ bit1;
 
+            scope.logicOutput = result;
+
             if (result === 0) {
               elem.text($filter('zeropad')(++score));
             }

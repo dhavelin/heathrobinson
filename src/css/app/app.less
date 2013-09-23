@@ -86,6 +86,34 @@ h1 {
     line-height: 1.4;
     text-align: center;
   }
+  th {
+    text-align: center;
+    color: #fff;
+    font-weight: normal;
+    background-color: #008b8b;
+    padding: 4px;
+    &.bits {
+      font-family: 'Droid Sans Mono', monospace;
+      font-size: 12px;
+      text-align: justify;
+      padding: 2px 6px 0 6px;
+      // A single line will not normally justify so we can fake a following line
+      &:after {
+        content: "";
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+  td {
+    padding: 8px;
+    background-color: beige;
+    font-size: 16px;
+    font-family: 'Droid Sans Mono', monospace;
+  }
+  td, th {
+    line-height: 1;
+  }
 }
 
 canvas {                  // off-screen, for constructing tape images
@@ -152,11 +180,6 @@ canvas {                  // off-screen, for constructing tape images
     border-right: 4px solid #008b8b;
   }
   th {
-    text-align: center;
-    color: #fff;
-    font-weight: normal;
-    background-color: #008b8b;
-    padding: 4px;
     &.bits {
       font-family: 'Droid Sans Mono', monospace;
       font-size: 12px;
@@ -170,35 +193,24 @@ canvas {                  // off-screen, for constructing tape images
       }
     }
   }
-  td {
-    padding: 8px;
+}
+
+#function {
+  display: inline-block;
+  margin: 20px auto 0 auto;
+  h2 {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  p {
     background-color: beige;
     font-size: 16px;
-    font-family: 'Droid Sans Mono', monospace;
-  }
-  td, th {
-    line-height: 1;
+    line-height: 2;
   }
 }
 
 #score {
   margin: 20px auto 0 auto;
-  th {
-    text-align: center;
-    color: #fff;
-    font-weight: normal;
-    background-color: #008b8b;
-    padding: 4px;
-  }
-  td {
-    padding: 8px;
-    background-color: beige;
-    font-size: 16px;
-    font-family: 'Droid Sans Mono', monospace;
-  }
-  td, th {
-    line-height: 1;
-  }
 }
 
 .counter {
