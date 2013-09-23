@@ -284,15 +284,16 @@ angular.module('heathRobinson').
         ttydata: '=',
         position: '=',
         title: '@',
-        symbol: '@'
+        symbol: '@',
+        style: '@' // temporary attr until better styling solution is found
       },
-      template: '<table>' +
+      template: '<table style={{style}}>' +
                 '<thead><tr><th colspan="2">{{title}}</th></tr></thead>' +
                 '<tbody>' +
-                '<tr><th>{{symbol}}&#x305;</th><td>{{character.previous}}</td></tr>' +
-                '<tr><th>{{symbol}}</th><td>{{character.current}}</td></tr>' +
+                '<tr><th class="symbol">{{symbol}}&#x305;</th><td class="char">{{character.previous}}</td></tr>' +
+                '<tr><th class="symbol">{{symbol}}</th><td class="char">{{character.current}}</td></tr>' +
                 '</tbody>' +
-                '<thead><tr><th></th><th class="bits">b<sub>5</sub> b<sub>4</sub> b<sub>3</sub> b<sub>2</sub> b<sub>1</sub></th></tr></thead>' +
+                '<thead><tr><td></td><th class="bits">b<sub>5</sub> b<sub>4</sub> b<sub>3</sub> b<sub>2</sub> b<sub>1</sub></th></tr></thead>' +
                 '</table>',
       link: function(scope, elem, attrs) {
 

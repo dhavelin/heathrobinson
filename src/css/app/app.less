@@ -177,14 +177,20 @@ canvas {                  // off-screen, for constructing tape images
   margin: 20px auto 0 auto;
   table {
     display: inline-block;
-    border-right: 4px solid #008b8b;
   }
   th {
+    &.symbol {
+      color: #000;
+      background-color: beige;
+    }
     &.bits {
       font-family: 'Droid Sans Mono', monospace;
       font-size: 12px;
       text-align: justify;
       padding: 2px 6px 0 6px;
+      color: #000;
+      background-color: beige;
+      border-top: 1px solid #aaa;
       // A single line will not normally justify so we can fake a following line
       &:after {
         content: "";
@@ -192,6 +198,10 @@ canvas {                  // off-screen, for constructing tape images
         width: 100%;
       }
     }
+  }
+  td.char {
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
   }
 }
 
