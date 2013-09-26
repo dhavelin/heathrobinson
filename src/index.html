@@ -63,7 +63,7 @@
 
           <div id="function">
             <h2>Logic Output</h2>
-            <p>&#x394;Z<sub>1</sub> &#x2295; &#x394;Z<sub>2</sub><br>&#x2295;<br>&#x394;K<sub>1</sub> &#x2295; &#x394;K<sub>2</sub><br>= {{logicOutput}}</p>
+            <p>&#x394;z<sub>1</sub> &#x2295; &#x394;z<sub>2</sub><br>&#x2295;<br>&#x394;k<sub>1</sub> &#x2295; &#x394;k<sub>2</sub><br>= {{logicOutput}}</p>
           </div>
 
         </div>
@@ -96,7 +96,7 @@
 
       </div>
       <div id="controls" class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <form class="form-inline" role="form">
             <button class="btn btn-primary" ng-click="resetTapes()">
               <span class="glyphicon glyphicon-repeat"></span>
@@ -113,7 +113,445 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div id="documentation" class="container" ng-controller="documentation">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>Background</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>International Telegraph Alphabet No. 2 (ITA2)</h3>
+          <p>ITA2 is a way of representing characters as a series of bits suitable for transmission. Each character is exactly 5 bits long. We can write those bits in various ways, as ones and zeros, say, or, as was the convention at <a href="http://bletchleypark.org.uk/">Bletchley Park</a>, as crosses and dots. A convenient way to prepare a message for transmission or to store a received message was to punch it into tape.</p>
+          <p>5 bits is not enough to represent all 26 letters, 10 digits, punctuation, etc. If you view the table below, you will see that each bit pattern has two possible interpretations - one a "letter", and one a "figure". To switch from transmitting letters to transmitting figures, you first send the "Shift to figures" character. To switch back to letters, send "Shift to letters".</p>
+          <p>
+            <button class="btn btn-primary" ng-click="toggleIta2()">
+              <span ng-if="!ita2">Show Table</span>
+              <span ng-if="ita2">Hide Table</span>
+            </button>
+          </p>
+        </div>
+      </div>
+
+      <div class="row" ng-show="ita2">
+        <div class="col-md-6" style="padding-right: 40px">
+          <table class="table table-condensed ita2">
+            <thead>
+              <tr>
+                <th>Bits</th>
+                <th>Letters</th>
+                <th>Figures</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td>Null</td>
+                <td>Null</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;X&#x2022;&#x2022;</td>
+                <td>Space</td>
+                <td>Space</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;XXX</td>
+                <td>Q</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;&#x2022;XX</td>
+                <td>W</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;&#x2022;&#x2022;X</td>
+                <td>E</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>&#x2022;X&#x2022;X&#x2022;</td>
+                <td>R</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td>T</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;X&#x2022;X</td>
+                <td>Y</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;XXX</td>
+                <td>U</td>
+                <td>7</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;XX&#x2022;</td>
+                <td>I</td>
+                <td>8</td>
+              </tr>
+              <tr>
+                <td>XX&#x2022;&#x2022;&#x2022;</td>
+                <td>O</td>
+                <td>9</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;XX&#x2022;</td>
+                <td>P</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;&#x2022;XX</td>
+                <td>A</td>
+                <td>–</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;X&#x2022;X</td>
+                <td>S</td>
+                <td>Bell</td>
+              </tr>
+              <tr>
+                <td>&#x2022;X&#x2022;&#x2022;X</td>
+                <td>D</td>
+                <td>WRU?</td>
+              </tr>
+              <tr>
+                <td>&#x2022;XX&#x2022;X</td>
+                <td>F</td>
+                <td>!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-6" style="padding-right: 40px">
+          <table class="table table-condensed ita2">
+            <thead>
+              <tr>
+                <th>Bits</th>
+                <th>Letters</th>
+                <th>Figures</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>XX&#x2022;X&#x2022;</td>
+                <td>G</td>
+                <td>&amp;</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;X&#x2022;&#x2022;</td>
+                <td>H</td>
+                <td>#</td>
+              </tr>
+              <tr>
+                <td>&#x2022;X&#x2022;XX</td>
+                <td>J</td>
+                <td>'</td>
+              </tr>
+              <tr>
+                <td>&#x2022;XXXX</td>
+                <td>K</td>
+                <td>(</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;&#x2022;X&#x2022;</td>
+                <td>L</td>
+                <td>)</td>
+              </tr>
+              <tr>
+                <td>X&#x2022;&#x2022;&#x2022;X</td>
+                <td>Z</td>
+                <td>"</td>
+              </tr>
+              <tr>
+                <td>XXX&#x2022;X</td>
+                <td>X</td>
+                <td>/</td>
+              </tr>
+              <tr>
+                <td>&#x2022;XXX&#x2022;</td>
+                <td>C</td>
+                <td>:</td>
+              </tr>
+              <tr>
+                <td>XXXX&#x2022;</td>
+                <td>V</td>
+                <td>;</td>
+              </tr>
+              <tr>
+                <td>XX&#x2022;&#x2022;X</td>
+                <td>B</td>
+                <td>?</td>
+              </tr>
+              <tr>
+                <td>&#x2022;XX&#x2022;&#x2022;</td>
+                <td>N</td>
+                <td>,</td>
+              </tr>
+              <tr>
+                <td>XXX&#x2022;&#x2022;</td>
+                <td>M</td>
+                <td>.</td>
+              </tr>
+              <tr>
+                <td>&#x2022;X&#x2022;&#x2022;&#x2022;</td>
+                <td>Carriage return</td>
+                <td>Carriage return</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;&#x2022;X&#x2022;</td>
+                <td>Line feed</td>
+                <td>Line feed</td>
+              </tr>
+              <tr>
+                <td>XX&#x2022;XX</td>
+                <td>Shift to figures</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>XXXXX</td>
+                <td></td>
+                <td>Shift to letters</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Vernam Cipher</h3>
+        </div>
+        <div class="col-md-9">
+          <p>The Boolean operation, "exclusive or" (XOR), produces an output <em>true</em> (or '1', or 'X') if one or other of its inputs is <em>true</em>, but not if both inputs are <em>true</em>. The symbol for this operation is &#x2295;.</p>
+          <p>A Vernam cipher takes an input message encoded in bits (using the ITA2 code above, say), and XORs it with a key to produce an encrypted output. An example will make it clear:</p>
+          <table class="table table-condensed vernam">
+            <tbody>
+              <tr class="borderless">
+                <th rowspan="2" style="vertical-align:bottom">Plaintext</th>
+                <td>H</td>
+                <td>E</td>
+                <td>L</td>
+                <td>L</td>
+                <td>O</td>
+              </tr>
+              <tr class="borderless">
+                <td>X&#x2022;X&#x2022;&#x2022;</td>
+                <td>&#x2022;&#x2022;&#x2022;&#x2022;X</td>
+                <td>X&#x2022;&#x2022;X&#x2022;</td>
+                <td>X&#x2022;&#x2022;X&#x2022;</td>
+                <td>XX&#x2022;&#x2022;&#x2022;</td>
+              </tr>
+              <tr>
+                <th>&#x2295; Key</th>
+                <td>&#x2022;XXX&#x2022;</td>
+                <td>X&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td>X&#x2022;XXX</td>
+                <td>&#x2022;&#x2022;&#x2022;XX</td>
+                <td>&#x2022;XX&#x2022;X</td>
+              </tr>
+              <tr>
+                <th rowspan="2">= Ciphertext</th>
+                <td>XX&#x2022;X&#x2022;</td>
+                <td>X&#x2022;&#x2022;&#x2022;X</td>
+                <td>&#x2022;&#x2022;X&#x2022;X</td>
+                <td>X&#x2022;&#x2022;&#x2022;X</td>
+                <td>X&#x2022;X&#x2022;X</td>
+              </tr>
+              <tr class="borderless">
+                <td>G</td>
+                <td>Z</td>
+                <td>S</td>
+                <td>Z</td>
+                <td>Y</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>A great convenience of the Vernam cipher is that to recover the original plaintext, you take the same key and perform the same XOR operation on the ciphertext:</p>
+          <table class="table table-condensed vernam">
+            <tbody>
+              <tr class="borderless">
+                <th rowspan="2" style="vertical-align:bottom">Ciphertext</th>
+                <td>G</td>
+                <td>Z</td>
+                <td>S</td>
+                <td>Z</td>
+                <td>Y</td>
+              </tr>
+              <tr class="borderless">
+                <td>XX&#x2022;X&#x2022;</td>
+                <td>X&#x2022;&#x2022;&#x2022;X</td>
+                <td>&#x2022;&#x2022;X&#x2022;X</td>
+                <td>X&#x2022;&#x2022;&#x2022;X</td>
+                <td>X&#x2022;X&#x2022;X</td>
+              </tr>
+              <tr>
+                <th>&#x2295; Key</th>
+                <td>&#x2022;XXX&#x2022;</td>
+                <td>X&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td>X&#x2022;XXX</td>
+                <td>&#x2022;&#x2022;&#x2022;XX</td>
+                <td>&#x2022;XX&#x2022;X</td>
+              </tr>
+              <tr>
+                <th rowspan="2">= Plaintext</th>
+                <td>X&#x2022;X&#x2022;&#x2022;</td>
+                <td>&#x2022;&#x2022;&#x2022;&#x2022;X</td>
+                <td>X&#x2022;&#x2022;X&#x2022;</td>
+                <td>X&#x2022;&#x2022;X&#x2022;</td>
+                <td>XX&#x2022;&#x2022;&#x2022;</td>
+              </tr>
+              <tr class="borderless">
+                <td>H</td>
+                <td>E</td>
+                <td>L</td>
+                <td>L</td>
+                <td>O</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-3" style="text-align: center">
+          <table class="table table-condensed table-bordered xor">
+            <thead>
+              <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>A &#x2295; B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&#x2022;</td>
+                <td>&#x2022;</td>
+                <td>&#x2022;</td>
+              </tr>
+              <tr>
+                <td>&#x2022;</td>
+                <td>X</td>
+                <td>X</td>
+              </tr>
+              <tr>
+                <td>X</td>
+                <td>&#x2022;</td>
+                <td>X</td>
+              </tr>
+              <tr>
+                <td>X</td>
+                <td>X</td>
+                <td>&#x2022;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Lorenz Cipher Machine</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p class="illustration"><a href="http://en.wikipedia.org/wiki/Lorenz_cipher"><img src="../img/lorenz.jpg" alt="bedstead"/></a></p>
+          <p>The German Army introduced the Lorenz SZ40 (and, later, the SZ42A and SZ42B) cipher machine, based on the Vernam principle, during WWII. Its purpose was to generate a pseudo-random key stream and XOR it with a message before transmission. At the other end, an identical Lorenz machine with the same initial settings would regenerate the key and, because of the symmetry of the Vernam cipher, transform the ciphertext back into a readable message.</p>
+          <p>In one of the great intellectual feats of the war, Bletchley Park's cryptanalysts deduced the structure of the Lorenz's key-generating mechanism and devised various strategies to reverse engineer the machine's initial settings from intercepted messages. The complexity of Lorenz meant that some of these strategies were impractical to carry out by hand so Post Office engineers were tasked with automating them. They came up with Heath Robinson, named for its resemblance to that cartoonist's <a href="https://www.google.ie/search?q=heath+robinson&amp;tbm=isch">elaborate contraptions</a>.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h2>The Heath Robinson Machine</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Bedstead</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="illustration"><img src="../img/bedstead.png" alt="bedstead"/></p>
+          <p>The bedstead is a system of pulleys mounted within a metal frame, the fancied resemblance to an upended bed inspiring the name. Looped around the pulleys are two long punched tapes which the machine reads and compares.</p>
+          <p>The minimum tape length was 2,000 characters. One tape would contain the ciphertext, the other the key stream generated by the first stage of Lorenz' two-stage process. The tapes were looped so that the character sequences would run through Robinson over and over, at a speed of up to 2,000 characters per second. One tape was slightly longer than the other so that the relative position of the tapes shifted after each loop. The loop "join" is marked in this simulation by a red line; in reality there were distinct hole patterns that indicated the first and last character of a tape. The red lines show clearly the relative shift after each loop.</p>
+          <p>The repeated tape scanning was needed because Robinson did not have a memory for storing data.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>Photocells</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="illustration"><img src="../img/photocells_text.png" alt="photocells"/></p>
+          <p>The tapes passed over a set of photocells (indicated here by the bright yellow spots beneath the tape) that could read two lines simultaneously, ie two adjacent characters. The output from the photocells is represented here by crosses and dots, corrseponding to the holes / non-holes of the tape. This was the conventional representation at Bletchley Park.</p>
+          <p>Each character has five bits, marked z<sub>1</sub> to z<sub>5</sub> (or k<sub>1</sub> to k<sub>5</sub>). The current character of the ciphertext is called Z, while the preceding character is Z&#x305;. For the key tape, the current and preceding characters are K and K&#x305;, respectively.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Logic Output</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="illustration"><img src="../img/logic.png" alt="logical operation"/></p>
+          <p>Ideally, ciphertext is indistinguishable from a random stream of letters. Bletchley discovered, however, that slight traces of the original German messages were detectable in the output of the Lorenz, particularly when each adjacent pair of characters was XOR'd together to form a new sequence. This is why Heath Robinson's photocell arrays detect two characters at a time. Because the XOR operation can be regarded as taking the difference between two characters, it makes sense to use the symbol &#x394; to represent that difference.</p>
+          <p>Although the Lorenz has 12 wheels in total, the first stage of encryption uses just 5 of those wheels (the "chi-wheels"), and each of those wheels encrypts just one bit of the input. It is, then, possible to tackle the wheel settings independently, making the number of settings to be tested far more manageable. Bletchley came up with statistical tests that operated on only two bits of the stream at a time.</p>
+          <p>So, for example, the partial key tape was set up on Robinson to generate all possible sequences of bits one and two generated by the two corresponding chi-wheels. With the other tape set up with the ciphertext, Robinson would combine corresponding bits from the two tapes as follows:</p>
+          <p style="font-size:16px;text-align: center">&#x394;z<sub>1</sub> &#x2295; &#x394;z<sub>2</sub> &#x2295; &#x394;k<sub>1</sub> &#x2295; &#x394;k<sub>2</sub></p>
+          <p>The result is either zero or one (or dot / cross).</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>Score</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="illustration"><img src="../img/score.png" alt="score"/></p>
+          <p>The number of zeros was counted for each loop. This is the score. If the ciphertext was truly random you would expect to get about 50% zeros and 50% ones over a whole loop. If the tapes were lined up corresponding to the actual settings used on the Lorenz, however, you would see a slight bias (about 55%) in favour of zeros. Because the tape lengths differ by one, after each loop the relative position of the tapes changes. In this way, all possible starting positions of the chi-wheels are tested.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>Printer</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="illustration"><img src="../img/printer.png" alt="printer"/></p>
+          <p>There was an attached typewriter that could record the loop count and score. It was possible to set a threshold so that only scores that reached a certain level were output. The loop with the highest count indicated the most likely wheel settings.</p>
+          <p>Later, a primitive line printer was attached that could output a row of figures simultaneously.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Final Steps</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p>The process would continue to establish the starting positions of all 5 chi-wheels in the Lorenz. The decryption could then be handed off for the remaining wheel settings to be cracked manually.</p>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12">
           <h2>References</h2>

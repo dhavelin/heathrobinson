@@ -78,4 +78,13 @@ angular.module('heathRobinson')
       $scope.$apply(function() { $scope.$broadcast('tapeAdvanced'); });
     }
 
+  }).
+
+  controller('documentation', function($scope) {
+
+    $scope.ita2 = false;
+
+    $scope.toggleIta2 = function() {
+      $scope.ita2 = !($scope.ita2);
+    };
   });

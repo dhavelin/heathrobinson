@@ -293,11 +293,14 @@ angular.module('heathRobinson').
                 '<tr><th class="symbol">{{symbol}}&#x305;</th><td class="char">{{character.previous}}</td></tr>' +
                 '<tr><th class="symbol">{{symbol}}</th><td class="char">{{character.current}}</td></tr>' +
                 '</tbody>' +
-                '<thead><tr><td></td><th class="bits">b<sub>5</sub> b<sub>4</sub> b<sub>3</sub> b<sub>2</sub> b<sub>1</sub></th></tr></thead>' +
+                '<thead><tr><td></td><th class="bits">{{bitSymbol}}<sub>5</sub> {{bitSymbol}}<sub>4</sub> {{bitSymbol}}<sub>3</sub>' +
+                ' {{bitSymbol}}<sub>2</sub> {{bitSymbol}}<sub>1</sub></th></tr></thead>' +
                 '</table>',
       link: function(scope, elem, attrs) {
 
         var printableChars = converters.char2print(scope.ttydata);
+
+        scope.bitSymbol = scope.symbol.toLowerCase();
 
         scope.$watch('position', function(value) {
           var lastIndex = printableChars.length - 1;

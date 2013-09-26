@@ -1,6 +1,7 @@
 @tape-width: 121px;
 @double-tape-width: (2 * @tape-width + 20);
 @tape-height: 400px;
+@monospace: 'Droid Sans Mono', monospace;
 
 // Mixins
 
@@ -260,4 +261,46 @@ canvas {                  // off-screen, for constructing tape images
 
 .running {
   .animation-play-state(running);
+}
+
+// Explantory text styles
+
+#documentation {
+  p {
+    text-align: justify;
+  }
+}
+
+.illustration {
+  float: right;
+  margin-left: 40px;
+  margin-bottom: 20px
+}
+
+.ita2 td:first-child {
+  font-family: @monospace;
+  letter-spacing: 0.7em;
+}
+
+.xor {
+  font-family: @monospace;
+  text-align: center;
+  width: auto;
+  display: inline-block;
+}
+
+.vernam {
+  td {
+    font-family: @monospace;
+    text-align: center;
+    letter-spacing: 0.7em;
+  }
+  th {
+    vertical-align: middle;
+  }
+  .borderless {
+    td, th {
+      border: none;
+    }
+  }
 }
