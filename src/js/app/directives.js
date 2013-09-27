@@ -297,19 +297,16 @@ angular.module('heathRobinson').
                 ' {{bitSymbol}}<sub>2</sub> {{bitSymbol}}<sub>1</sub></th></tr></thead>' +
                 '</table>',
       link: function(scope, elem, attrs) {
-
         var printableChars = converters.char2print(scope.ttydata);
 
         scope.bitSymbol = scope.symbol.toLowerCase();
 
         scope.$watch('position', function(value) {
-          var lastIndex = printableChars.length - 1;
           scope.character = {
             current: printableChars[scope.position.current],
             previous: printableChars[scope.position.previous]
           };
         }, true);
-
       }
     };
   }).
