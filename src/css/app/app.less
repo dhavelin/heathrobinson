@@ -1,13 +1,12 @@
 @tape-width: 121px;
 @double-tape-width: (2 * @tape-width + 20);
 @tape-height: 400px;
-@monospace: 'Droid Sans Mono', monospace;
 
 // Mixins
 
 .center {
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .heading {
@@ -24,6 +23,10 @@
 .tape-width {
   display: inline-block;
   width: @tape-width;
+}
+
+.monospace {
+  font-family: 'Droid Sans Mono', monospace;
 }
 
 
@@ -94,7 +97,7 @@ h1 {
     background-color: #008b8b;
     padding: 4px;
     &.bits {
-      font-family: 'Droid Sans Mono', monospace;
+      .monospace;
       font-size: 12px;
       text-align: justify;
       padding: 2px 6px 0 6px;
@@ -110,7 +113,7 @@ h1 {
     padding: 8px;
     background-color: beige;
     font-size: 16px;
-    font-family: 'Droid Sans Mono', monospace;
+    .monospace;
   }
   td, th {
     line-height: 1;
@@ -144,7 +147,7 @@ canvas {                  // off-screen, for constructing tape images
     display: inline-block;
     text-align: right;
     width: 50%;
-    font-family: 'Droid Sans Mono', monospace;
+    .monospace;
     padding: 0 24px 0 0;
     font-size: 13px;
   }
@@ -185,7 +188,7 @@ canvas {                  // off-screen, for constructing tape images
       background-color: beige;
     }
     &.bits {
-      font-family: 'Droid Sans Mono', monospace;
+      .monospace;
       font-size: 12px;
       text-align: justify;
       padding: 2px 6px 0 6px;
@@ -214,9 +217,11 @@ canvas {                  // off-screen, for constructing tape images
     padding-right: 20px;
   }
   p {
+    .monospace;
     background-color: beige;
     font-size: 16px;
     line-height: 2;
+
   }
 }
 
@@ -229,7 +234,7 @@ canvas {                  // off-screen, for constructing tape images
   display: inline-block;
   width: @tape-width;
   text-align: center;
-  font-family: 'Droid Sans Mono', monospace;
+  .monospace;
 }
 
 .btn {
@@ -278,12 +283,12 @@ canvas {                  // off-screen, for constructing tape images
 }
 
 .ita2 td:first-child {
-  font-family: @monospace;
+  .monospace;
   letter-spacing: 0.7em;
 }
 
 .xor {
-  font-family: @monospace;
+  .monospace;
   text-align: center;
   width: auto;
   display: inline-block;
@@ -291,7 +296,7 @@ canvas {                  // off-screen, for constructing tape images
 
 .vernam {
   td {
-    font-family: @monospace;
+    .monospace;
     text-align: center;
     letter-spacing: 0.7em;
   }
