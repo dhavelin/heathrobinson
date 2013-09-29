@@ -88,6 +88,17 @@ module.exports = function(grunt) {
       }
     },
 
+    includes: {
+      files: {
+        src: ['<%= dir_src %>/index.html'],
+        dest: '<%= dir_temp %>',
+        flatten: true,
+        options: {
+          // silent: true
+        }
+      }
+    },
+
     htmlmin: {
       options: {
         removeComments: true,
@@ -96,7 +107,7 @@ module.exports = function(grunt) {
       },
       main: {
         files: {
-          '<%= dir_target %>/index.html': '<%= dir_src %>/index.html'
+          '<%= dir_target %>/index.html': '<%= dir_temp %>/index.html'
         }
       },
       partials: {
@@ -139,7 +150,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   // grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-includes');
 
   // Default tasks
-  grunt.registerTask('default', ['jshint', 'less', 'concat', 'ngmin', 'htmlmin', 'copy']);
+  grunt.registerTask('default', ['jshint', 'less', 'concat', 'ngmin', 'includes', 'htmlmin', 'copy']);
 };
