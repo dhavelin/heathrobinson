@@ -16,7 +16,7 @@
       <div class="row">
 
           <h1>
-            <img src="img/title.png" alt="Stack Overflow" title="Heath Robinson" />
+            <img src="img/title.png" alt="Heath Robinson" title="Heath Robinson" />
           </h1>
 
       </div>
@@ -109,145 +109,178 @@
               <label class="sr-only" for="tapeSpeed">Tape Speed</label>
               <select id="tapeSpeed" class="form-control" ng-model="tapeSpeed" ng-options="s.description for s in speeds"></select>
             </div>
+            <button class="btn btn-primary" ng-click="toggleTapeEditor()"><span ng-class="{'glyphicon': true, 'glyphicon-arrow-down': !tapeEditorActive, 'glyphicon-arrow-up': tapeEditorActive}"></span> Edit Tapes</button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="tape-edit" ng-show="tapeEditorActive">
       <div class="row">
-        <p>The characters of the ciphertext and partial key streams have no meaning - they are just a sequence of bits. We can therefore ignore the alternate "figure" character mappings (see the section on "International Telegraph Alphabet No. 2" below). We can also use more convenient symbols for the various control commands, and space and null characters, just as they did at Bletchley Park:</p>
-        <table class="table table-condensed table-bordered controlchars">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Original</th>
-              <th>Replacement</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="code">&#x2022;&#x2022;X&#x2022;&#x2022;</td>
-              <td>Space</td>
-              <td class="replacement">9</td>
-            </tr>
-            <tr>
-              <td class="code">&#x2022;X&#x2022;&#x2022;&#x2022;</td>
-              <td class="name">Carriage return</td>
-              <td class="replacement">3</td>
-            </tr>
-            <tr>
-              <td class="code">&#x2022;&#x2022;&#x2022;X&#x2022;</td>
-              <td class="name">Line feed</td>
-              <td class="replacement">4</td>
-            </tr>
-            <tr>
-              <td class="code">XXXXX</td>
-              <td class="name">Shift to letters</td>
-              <td class="replacement">8</td>
-            </tr>
-            <tr>
-              <td class="code">XX&#x2022;XX</td>
-              <td class="name">Shift to numbers</td>
-              <td class="replacement">+</td>
-            </tr>
-            <tr>
-              <td class="code">&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</td>
-              <td class="name">Null</td>
-              <td class="replacement">/</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="col-md-12">
+          <form role="form">
+            <div class="form-group">
+              <label for="tape1" class="control-label">Ciphertext ({{tape1.copy.length}})</label>
+              <textarea rows="4" class="form-control" id="ciphertext" data-ng-model="tape1.copy" spellcheck="false" data-tape-input></textarea>
+            </div>
+            <div class="form-group">
+              <label for="tape2" class="control-label">Partial Key ({{tape2.copy.length}})</label>
+              <textarea rows="4" class="form-control" id="partialkey" data-ng-model="tape2.copy" spellcheck="false" data-tape-input></textarea>
+            </div>
+            <div class="form-group" style="text-align: center;">
+              <button type="submit" class="btn btn-primary" ng-click="updateTapes()">Update tapes</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div id="teletype" class="row">
-        <table class="table table-condensed table-bordered teletype">
-          <thead>
-            <tr>
-              <th colspan="12">Allowed characters</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</td>
-              <td class="char">/</td>
-              <td>&#x2022;&#x2022;XX&#x2022;</td>
-              <td class="char">I</td>
-              <td>&#x2022;XX&#x2022;&#x2022;</td>
-              <td class="char">N</td>
-              <td>X&#x2022;&#x2022;X&#x2022;</td>
-              <td class="char">L</td>
-              <td>XX&#x2022;&#x2022;&#x2022;</td>
-              <td class="char">O</td>
-              <td>XXXX&#x2022;</td>
-              <td class="char">V</td>
-            </tr>
-            <tr>
-              <td>&#x2022;&#x2022;&#x2022;&#x2022;X</td>
-              <td class="char">E</td>
-              <td>&#x2022;&#x2022;XXX</td>
-              <td class="char">U</td>
-              <td>&#x2022;XX&#x2022;X</td>
-              <td class="char">F</td>
-              <td>X&#x2022;&#x2022;XX</td>
-              <td class="char">W</td>
-              <td>XX&#x2022;&#x2022;X</td>
-              <td class="char">B</td>
-              <td>XXXXX</td>
-              <td class="char">8</td>
-            </tr>
-            <tr>
-              <td>&#x2022;&#x2022;&#x2022;X&#x2022;</td>
-              <td class="char">4</td>
-              <td>&#x2022;X&#x2022;&#x2022;&#x2022;</td>
-              <td class="char">3</td>
-              <td>&#x2022;XXX&#x2022;</td>
-              <td class="char">C</td>
-              <td>X&#x2022;X&#x2022;&#x2022;</td>
-              <td class="char">H</td>
-              <td>XX&#x2022;X&#x2022;</td>
-              <td class="char">G</td>
-              <td colspan="2" rowspan="4"></td>
-            </tr>
-            <tr>
-              <td>&#x2022;&#x2022;&#x2022;XX</td>
-              <td class="char">A</td>
-              <td>&#x2022;X&#x2022;&#x2022;X</td>
-              <td class="char">D</td>
-              <td>&#x2022;XXXX</td>
-              <td class="char">K</td>
-              <td>X&#x2022;X&#x2022;X</td>
-              <td class="char">Y</td>
-              <td>XX&#x2022;XX</td>
-              <td class="char">+</td>
-            </tr>
-            <tr>
-              <td>&#x2022;&#x2022;X&#x2022;&#x2022;</td>
-              <td class="char">9</td>
-              <td>&#x2022;X&#x2022;X&#x2022;</td>
-              <td class="char">R</td>
-              <td>X&#x2022;&#x2022;&#x2022;&#x2022;</td>
-              <td class="char">T</td>
-              <td>X&#x2022;XX&#x2022;</td>
-              <td class="char">P</td>
-              <td>XXX&#x2022;&#x2022;</td>
-              <td class="char">M</td>
-            </tr>
-            <tr>
-              <td>&#x2022;&#x2022;X&#x2022;X</td>
-              <td class="char">S</td>
-              <td>&#x2022;X&#x2022;XX</td>
-              <td class="char">J</td>
-              <td>X&#x2022;&#x2022;&#x2022;X</td>
-              <td class="char">Z</td>
-              <td>X&#x2022;XXX</td>
-              <td class="char">Q</td>
-              <td>XXX&#x2022;X</td>
-              <td class="char">X</td>
-            </tr>
 
-          </tbody>
-        </table>
+
+      <div class="row">
+        <div class="col-md-8">
+          <table class="table table-condensed teletype">
+            <thead>
+              <tr>
+                <th colspan="12">Allowed characters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td class="char">/</td>
+                <td>&#x2022;X&#x2022;&#x2022;&#x2022;</td>
+                <td class="char">3</td>
+                <td>X&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td class="char">T</td>
+                <td>XX&#x2022;&#x2022;&#x2022;</td>
+                <td class="char">O</td>
+              </tr>
+              <tr>
+                <td>&#x2022;&#x2022;&#x2022;&#x2022;X</td>
+                <td class="char">E</td>
+                <td>&#x2022;X&#x2022;&#x2022;X</td>
+                <td class="char">D</td>
+                <td>X&#x2022;&#x2022;&#x2022;X</td>
+                <td class="char">Z</td>
+                <td>XX&#x2022;&#x2022;X</td>
+                <td class="char">B</td>
+               </tr>
+               <tr>
+                <td>&#x2022;&#x2022;&#x2022;X&#x2022;</td>
+                <td class="char">4</td>
+                <td>&#x2022;X&#x2022;X&#x2022;</td>
+                <td class="char">R</td>
+                <td>X&#x2022;&#x2022;X&#x2022;</td>
+                <td class="char">L</td>
+                <td>XX&#x2022;X&#x2022;</td>
+                <td class="char">G</td>
+               </tr>
+               <tr>
+                <td>&#x2022;&#x2022;&#x2022;XX</td>
+                <td class="char">A</td>
+                <td>&#x2022;X&#x2022;XX</td>
+                <td class="char">J</td>
+                <td>X&#x2022;&#x2022;XX</td>
+                <td class="char">W</td>
+                <td>XX&#x2022;XX</td>
+                <td class="char">+</td>
+               </tr>
+               <tr>
+                <td>&#x2022;&#x2022;X&#x2022;&#x2022;</td>
+                <td class="char">9</td>
+                <td>&#x2022;XX&#x2022;&#x2022;</td>
+                <td class="char">N</td>
+                <td>X&#x2022;X&#x2022;&#x2022;</td>
+                <td class="char">H</td>
+                <td>XXX&#x2022;&#x2022;</td>
+                <td class="char">M</td>
+               </tr>
+               <tr>
+                <td>&#x2022;&#x2022;X&#x2022;X</td>
+                <td class="char">S</td>
+                <td>&#x2022;XX&#x2022;X</td>
+                <td class="char">F</td>
+                <td>X&#x2022;X&#x2022;X</td>
+                <td class="char">Y</td>
+                <td>XXX&#x2022;X</td>
+                <td class="char">X</td>
+               </tr>
+               <tr>
+                <td>&#x2022;&#x2022;XX&#x2022;</td>
+                <td class="char">I</td>
+                <td>&#x2022;XXX&#x2022;</td>
+                <td class="char">C</td>
+                <td>X&#x2022;XX&#x2022;</td>
+                <td class="char">P</td>
+                <td>XXXX&#x2022;</td>
+                <td class="char">V</td>
+               </tr>
+               <tr>
+                <td>&#x2022;&#x2022;XXX</td>
+                <td class="char">U</td>
+                <td>&#x2022;XXXX</td>
+                <td class="char">K</td>
+                <td>X&#x2022;XXX</td>
+                <td class="char">Q</td>
+                <td>XXXXX</td>
+                <td class="char">8</td>
+               </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-4">
+          <table class="table table-condensed controlchars">
+            <thead>
+              <tr>
+                <th colspan="3">Substitutions</th>
+              </tr>
+              <tr>
+                <th>Code</th>
+                <th>Original</th>
+                <th>Replacement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="code">&#x2022;&#x2022;X&#x2022;&#x2022;</td>
+                <td>Space</td>
+                <td class="replacement">9</td>
+              </tr>
+              <tr>
+                <td class="code">&#x2022;X&#x2022;&#x2022;&#x2022;</td>
+                <td class="name">Carriage return</td>
+                <td class="replacement">3</td>
+              </tr>
+              <tr>
+                <td class="code">&#x2022;&#x2022;&#x2022;X&#x2022;</td>
+                <td class="name">Line feed</td>
+                <td class="replacement">4</td>
+              </tr>
+              <tr>
+                <td class="code">XXXXX</td>
+                <td class="name">Shift to letters</td>
+                <td class="replacement">8</td>
+              </tr>
+              <tr>
+                <td class="code">XX&#x2022;XX</td>
+                <td class="name">Shift to numbers</td>
+                <td class="replacement">+</td>
+              </tr>
+              <tr>
+                <td class="code">&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</td>
+                <td class="name">Null</td>
+                <td class="replacement">/</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <p>The characters of the ciphertext and partial key streams have no meaning &#8212; they are just a sequence of bits. We can therefore ignore the alternate &#8220;figure&#8221; character mappings (see the section on &#8220;International Telegraph Alphabet No. 2&#8221; below). We can also substitute more convenient symbols for the various control commands, and space and null characters, just as they did at Bletchley Park.</p>
+        </div>
+      </div>
+
     </div>
 
     include "includes/documentation.html"

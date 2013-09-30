@@ -42,6 +42,13 @@ h1 {
   padding: 8px;
   border-top: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
+  .btn {
+    margin-right: 8px;
+    width: 8em;
+  }
+  .form-group {
+    margin-right: 8px;
+  }
 }
 
 #headers {
@@ -117,6 +124,18 @@ h1 {
   }
   td, th {
     line-height: 1;
+  }
+}
+
+#tape-edit {
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  background-color: #ddd;
+  padding-top: 20px;
+  textarea {
+    .monospace;
+    letter-spacing: 0.5em;
   }
 }
 
@@ -239,11 +258,6 @@ canvas {                  // off-screen, for constructing tape images
   .monospace;
 }
 
-.btn {
-  margin-right: 8px;
-  width: 8em;
-}
-
 
 // Animation styles
 
@@ -268,6 +282,33 @@ canvas {                  // off-screen, for constructing tape images
 
 .running {
   .animation-play-state(running);
+}
+
+.controlchars {
+  width: auto;
+  td {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  .code {
+    .monospace;
+    letter-spacing: 0.7em;
+  }
+  .replacement {
+    text-align: center;
+  }
+}
+
+.teletype {
+  width: auto;
+  td {
+    .monospace;
+    letter-spacing: 0.7em;
+    padding-left: 12px !important;
+  }
+  .char {
+    padding-right: 12px;
+  }
 }
 
 // Explantory text styles

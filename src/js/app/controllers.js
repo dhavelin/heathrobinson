@@ -8,6 +8,8 @@ angular.module('heathRobinson')
     $scope.enablePlay = true;
     $scope.tapeRunning = false;
 
+    $scope.tapeEditorActive = false;
+
     $scope.printout = {
       loop: '',
       score: ''
@@ -15,6 +17,7 @@ angular.module('heathRobinson')
 
     $scope.tape1 = {
       sequence: initialData.cipher,
+      copy: initialData.cipher,
       loopStart: function() {}
     };
 
@@ -22,6 +25,7 @@ angular.module('heathRobinson')
 
     $scope.tape2 = {
       sequence: initialData.key,
+      copy: initialData.key,
       loopStart: function() {
 
         clearInterval(charTimer);
@@ -66,6 +70,17 @@ angular.module('heathRobinson')
       };
       $scope.$broadcast('tapeReset');
       clearInterval(charTimer);
+    };
+
+    // Function that updates the tapes with new data
+    $scope.updateTapes = function () {
+      $scope.tape1.sequence = $scope.tape1.copy;
+      $scope.tape2.sequence = $scope.tape2.copy;
+      $scope.resetTapes();
+    };
+
+    $scope.toggleTapeEditor = function() {
+      $scope.tapeEditorActive = !($scope.tapeEditorActive);
     };
 
     // When tape speed is changed, set tapes to start position

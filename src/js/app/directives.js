@@ -43,7 +43,7 @@ angular.module('heathRobinson').
       var xPos;
 
       for(var n = 0; n < 5; n++) {
-        if (bits[4 - n]) {
+        if (bits[n]) {
           xPos = n * 17 + xOffset;
           // allow for sprocket hole
           if (n > 2) {
@@ -60,7 +60,7 @@ angular.module('heathRobinson').
     function punchTape(sequence, context) {
       for (var i = 0; i < sequence.length; i++) {
         yPos = (20 * i) + 10;
-        punchChar(sequence[i], yPos, context);
+        punchChar(sequence.charAt(i), yPos, context);
       }
     }
 
@@ -307,6 +307,14 @@ angular.module('heathRobinson').
             previous: printableChars[scope.position.previous]
           };
         }, true);
+
+        scope.$watch('ttydata', function(value) {
+          printableChars = converters.char2print(scope.ttydata);
+          scope.character = {
+            current: printableChars[scope.position.current],
+            previous: printableChars[scope.position.previous]
+          };
+        });
       }
     };
   }).
@@ -363,6 +371,41 @@ angular.module('heathRobinson').
           score = 0;
           elem.text($filter('zeropad')(score));
         });
+      }
+    };
+  }).
+
+  directive('tapeInput', function() {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModel) {
+
+        function filter(inputValue) {
+
+          var filtered;
+
+          if (inputValue) {
+
+            // Only capital letters are valid
+            filtered = inputValue.toUpperCase();
+
+            // If there are invalid chars, delete them
+            if (!filtered.match('^[A-Z3489+/]+$')) {
+              filtered = filtered.replace(/[^A-Z3489+\/]/g, '');
+            }
+
+            // If we changed something, update the view
+            if (filtered !== inputValue) {
+              ngModel.$setViewValue(filtered);
+              ngModel.$render();
+            }
+            return filtered;
+          }
+          return inputValue;
+        }
+        ngModel.$parsers.push(filter);
+        filter(scope[attrs.ngModel]);  // filter initial value
       }
     };
   });
