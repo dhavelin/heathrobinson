@@ -56,7 +56,7 @@ h1 {
   border-top: 1px solid #aaa;
   #tape-headers {
     margin: 0 auto;
-    width: (2 * @tape-width + 20);
+    width: (2 * @tape-width + 15);
   }
   .tape-header {
     width: @tape-width;
@@ -125,6 +125,9 @@ h1 {
   td, th {
     line-height: 1;
   }
+  .col-xs-3, .col-xs-4, .col-xs-5 {
+    padding: 0;
+  }
 }
 
 #tape-edit {
@@ -149,7 +152,7 @@ canvas {                  // off-screen, for constructing tape images
 #bedstead {
   background: url("../img/photocells.png") no-repeat 0 141px;
   height: @tape-height;
-  width: (2 * @tape-width + 20);
+  width: (2 * @tape-width + 15);
   overflow: hidden;
   margin: 0 auto;
 }
@@ -196,40 +199,31 @@ canvas {                  // off-screen, for constructing tape images
 }
 
 #photocells {
-  display: inline-block;
   margin: 20px auto 0 auto;
-  table {
-    display: inline-block;
+  td {
+    line-height: 1.5;
   }
-  th {
-    &.symbol {
-      color: #000;
-      background-color: beige;
-    }
-    &.bits {
-      .monospace;
-      font-size: 12px;
-      text-align: justify;
-      padding: 2px 6px 0 6px;
-      color: #000;
-      background-color: beige;
-      border-top: 1px solid #aaa;
-      // A single line will not normally justify so we can fake a following line
-      &:after {
-        content: "";
-        display: inline-block;
-        width: 100%;
-      }
-    }
+  .separator {
+    background: none;
+    padding: 1px;
+    border: none !important;
   }
-  td.char {
-    border-left: 1px solid #aaa;
-    border-right: 1px solid #aaa;
+  .bits td {
+    font-size: 12px;
+    line-height: 1;
+    text-align: justify;
+    padding: 2px 6px 0 6px;
+    border-top: 1px solid #aaa;
+    // A single line will not normally justify so we can fake a following line
+    &:after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+    }
   }
 }
 
 #function {
-  display: inline-block;
   width: 180px;
   margin: 20px auto 0 auto;
   h2 {

@@ -25,9 +25,9 @@
     <div class="container" style="border-left:1px solid #aaa;border-right:1px solid #aaa">
       <div id="headers" class="row">
 
-        <div class="col-xs-4">
+        <div class="col-xs-5">
           <div id="tape-headers">
-            <div class="tape-header" style="margin-right: 20px">
+            <div class="tape-header" style="margin-right: 15px">
               <h2>Ciphertext</h2>
               <span>Length: {{tape1.len}}</span>
             </div>
@@ -42,24 +42,46 @@
 
       <div id="machine" class="row">
 
-        <div class="col-xs-4">
+        <div class="col-xs-5">
           <div id="bedstead" data-bedstead>
             <div id="tape1" class="tape" data-tape data-ttydata="tape1.sequence"
                  data-loop-counter="tape1.loopCounter"
                  data-reset="tapeReset" data-tape-object="tape1"></div>
             <div id="tape2" class="tape" data-tape data-ttydata="tape2.sequence"
                  data-loop-counter="tape2.loopCounter"
-                 data-reset="tapeReset" data-tape-object="tape2" style="margin-left: 20px"></div>
+                 data-reset="tapeReset" data-tape-object="tape2" style="margin-left: 15px"></div>
           </div>
         </div>
 
         <div class="col-xs-4" style="text-align: center">
 
-          <div id="photocells">
-            <h2>Photocell Output</h2>
-            <div data-photocell data-title="Ciphertext" data-symbol="Z" data-ttydata="tape1.sequence" data-position="tape1.position" data-style="margin-right: 10px"></div>
-            <div data-photocell data-title="Partial Key"  data-symbol="K" data-ttydata="tape2.sequence" data-position="tape2.position" data-style=""></div>
-          </div>
+          <table id="photocells">
+            <thead>
+              <tr>
+                <th colspan="3">Photocell Output</th>
+              </tr>
+              <tr>
+                <th colspan="3" class="separator"></th>
+              </tr>
+              <tr>
+                <th>Ciphertext (Z)</th>
+                <th class="separator"></th>
+                <th>Partial Key (K)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-photocell data-ttydata="tape1.sequence" data-position="tape1.position"></td>
+                <td class="separator"></td>
+                <td data-photocell data-ttydata="tape2.sequence" data-position="tape2.position"></td>
+              </tr>
+              <tr class="bits">
+                <td>z<sub>5</sub> z<sub>4</sub> z<sub>3</sub> z<sub>2</sub> z<sub>1</sub></td>
+                <td class="separator"></td>
+                <td>k<sub>5</sub> k<sub>4</sub> k<sub>3</sub> k<sub>2</sub> k<sub>1</sub></td>
+              </tr>
+            </tbody>
+          </table>
 
           <div id="function">
             <h2>Logic Output</h2>
@@ -68,7 +90,7 @@
 
         </div>
 
-        <div class="col-xs-4">
+        <div class="col-xs-3">
 
           <table id="score">
             <thead>

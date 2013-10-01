@@ -279,27 +279,14 @@ angular.module('heathRobinson').
 
     return {
       restrict: 'A',
-      replace: true,
       scope: {
         ttydata: '=',
-        position: '=',
-        title: '@',
-        symbol: '@',
-        style: '@' // temporary attr until better styling solution is found
+        position: '='
       },
-      template: '<table style={{style}}>' +
-                '<thead><tr><th colspan="2">{{title}}</th></tr></thead>' +
-                '<tbody>' +
-                '<tr><th class="symbol">{{symbol}}&#x305;</th><td class="char">{{character.previous}}</td></tr>' +
-                '<tr><th class="symbol">{{symbol}}</th><td class="char">{{character.current}}</td></tr>' +
-                '</tbody>' +
-                '<thead><tr><td></td><th class="bits">{{bitSymbol}}<sub>5</sub> {{bitSymbol}}<sub>4</sub> {{bitSymbol}}<sub>3</sub>' +
-                ' {{bitSymbol}}<sub>2</sub> {{bitSymbol}}<sub>1</sub></th></tr></thead>' +
-                '</table>',
+      template: '<span>{{character.previous}}<br>{{character.current}}</span>',
       link: function(scope, elem, attrs) {
         var printableChars = converters.char2print(scope.ttydata);
 
-        scope.bitSymbol = scope.symbol.toLowerCase();
 
         scope.$watch('position', function(value) {
           scope.character = {
