@@ -305,7 +305,7 @@ angular.module('heathRobinson').
     };
   }).
 
-  directive('score', function($filter) {
+  directive('score', function($filter, converters) {
 
     return {
       restrict: 'A',
@@ -318,6 +318,11 @@ angular.module('heathRobinson').
 
         var score = 0;
 
+        var data = {
+          tape1: [],
+          tape2: []
+        };
+
         elem.text($filter('zeropad')(score));
 
         scope.$on('tapeAdvanced', function() {
@@ -327,8 +332,8 @@ angular.module('heathRobinson').
 
             // We are XOR'ing the two least significant bits of the current and previous chars on each tape. We increment the loop
             // score when this equals 0. A spike in this value means we might have found the wheel settings.
-            var deltaTape1 = scope.tape1.sequence[scope.tape1.position.current] ^ scope.tape1.sequence[scope.tape1.position.previous];
-            var deltaTape2 = scope.tape2.sequence[scope.tape2.position.current] ^ scope.tape2.sequence[scope.tape2.position.previous];
+            var deltaTape1 = data.tape1[scope.tape1.position.current] ^ data.tape1[scope.tape1.position.previous];
+            var deltaTape2 = data.tape2[scope.tape2.position.current] ^ data.tape2[scope.tape2.position.previous];
             var deltaCombined = deltaTape1 ^ deltaTape2;
             var bit0 = deltaCombined & 1;
             var bit1 = (deltaCombined >> 1) & 1;
@@ -357,6 +362,15 @@ angular.module('heathRobinson').
           score = 0;
           elem.text($filter('zeropad')(score));
         });
+
+        scope.$watch('tape1.sequence', function(value) {
+          data.tape1 = converters.chars2binary(value);
+        });
+
+        scope.$watch('tape2.sequence', function(value) {
+          data.tape2 = converters.chars2binary(value);
+        });
+
       }
     };
   }).
