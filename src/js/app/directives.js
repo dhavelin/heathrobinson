@@ -285,8 +285,7 @@ angular.module('heathRobinson').
       },
       template: '<span>{{character.previous}}<br>{{character.current}}</span>',
       link: function(scope, elem, attrs) {
-        var printableChars = converters.char2print(scope.ttydata);
-
+        var printableChars = converters.chars2print(scope.ttydata);
 
         scope.$watch('position', function(value) {
           scope.character = {
@@ -296,7 +295,7 @@ angular.module('heathRobinson').
         }, true);
 
         scope.$watch('ttydata', function(value) {
-          printableChars = converters.char2print(scope.ttydata);
+          printableChars = converters.chars2print(scope.ttydata);
           scope.character = {
             current: printableChars[scope.position.current],
             previous: printableChars[scope.position.previous]
