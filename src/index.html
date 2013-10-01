@@ -53,66 +53,72 @@
           </div>
         </div>
 
-        <div class="col-xs-4" style="text-align: center">
+        <div class="col-xs-7">
+          <div class="row">
 
-          <table id="photocells">
-            <thead>
-              <tr>
-                <th colspan="3">Photocell Output</th>
-              </tr>
-              <tr>
-                <th colspan="3" class="separator"></th>
-              </tr>
-              <tr>
-                <th>Ciphertext (Z)</th>
-                <th class="separator"></th>
-                <th>Partial Key (K)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-photocell data-ttydata="tape1.sequence" data-position="tape1.position"></td>
-                <td class="separator"></td>
-                <td data-photocell data-ttydata="tape2.sequence" data-position="tape2.position"></td>
-              </tr>
-              <tr class="bits">
-                <td>z<sub>5</sub> z<sub>4</sub> z<sub>3</sub> z<sub>2</sub> z<sub>1</sub></td>
-                <td class="separator"></td>
-                <td>k<sub>5</sub> k<sub>4</sub> k<sub>3</sub> k<sub>2</sub> k<sub>1</sub></td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="col-xs-6" style="text-align: center">
 
-          <div id="function">
-            <h2>Logic Output</h2>
-            <p>&#x394;z<sub>1</sub> &#x2295; &#x394;z<sub>2</sub><br>&#x2295;<br>&#x394;k<sub>1</sub> &#x2295; &#x394;k<sub>2</sub><br>= {{logicOutput}}</p>
-          </div>
+              <table id="photocells">
+                <thead>
+                  <tr>
+                    <th colspan="3">Photocell Output</th>
+                  </tr>
+                  <tr>
+                    <th colspan="3" class="separator"></th>
+                  </tr>
+                  <tr>
+                    <th>Ciphertext (Z)</th>
+                    <th class="separator"></th>
+                    <th>Partial Key (K)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-photocell data-ttydata="tape1.sequence" data-position="tape1.position"></td>
+                    <td class="separator"></td>
+                    <td data-photocell data-ttydata="tape2.sequence" data-position="tape2.position"></td>
+                  </tr>
+                  <tr class="bits">
+                    <td>z<sub>5</sub> z<sub>4</sub> z<sub>3</sub> z<sub>2</sub> z<sub>1</sub></td>
+                    <td class="separator"></td>
+                    <td>k<sub>5</sub> k<sub>4</sub> k<sub>3</sub> k<sub>2</sub> k<sub>1</sub></td>
+                  </tr>
+                </tbody>
+              </table>
 
-        </div>
+              <div id="function">
+                <h2>Logic Output</h2>
+                <p>&#x394;z<sub>1</sub> &#x2295; &#x394;z<sub>2</sub><br>&#x2295;<br>&#x394;k<sub>1</sub> &#x2295; &#x394;k<sub>2</sub><br>= {{logicOutput}}</p>
+              </div>
 
-        <div class="col-xs-3">
-
-          <table id="score">
-            <thead>
-              <tr>
-                <th>Loop</th>
-                <th>Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-ng-bind="tape2.loopCounter | zeropad"></td>
-                <td score></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div id="printer">
-            <h2>Printer Output</h2>
-            <div class="output">
-              <h3>Loop</h3><h3>Score</h3>
-              <pre>{{printout.loop}}</pre><pre>{{printout.score}}</pre>
             </div>
+
+            <div class="col-xs-6">
+
+              <table id="score">
+                <thead>
+                  <tr>
+                    <th>Loop</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-ng-bind="tape2.loopCounter | zeropad"></td>
+                    <td score></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div id="printer">
+                <h2>Printer Output</h2>
+                <div class="output">
+                  <h3>Loop</h3><h3>Score</h3>
+                  <pre>{{printout.loop}}</pre><pre>{{printout.score}}</pre>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
