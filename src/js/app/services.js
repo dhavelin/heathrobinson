@@ -25,42 +25,138 @@ angular.module('heathRobinson').
   service('converters', function() {
 
     var bits = {
-      '/': [false, false, false, false, false], // null
-      '9': [false, false, true, false, false], // space
-      'Q': [true, false, true, true, true],
-      'W': [true, false, false, true, true],
-      'E': [false, false, false, false, true],
-      'R': [false, true, false, true, false],
-      'T': [true, false, false, false, false],
-      'Y': [true, false, true, false, true],
-      'U': [false, false, true, true, true],
-      'I': [false, false, true, true, false],
-      'O': [true, true, false, false, false],
-      'P': [true, false, true, true, false],
-      'A': [false, false, false, true, true],
-      'S': [false, false, true, false, true],
-      'D': [false, true, false, false, true],
-      'F': [false, true, true, false, true],
-      'G': [true, true, false, true, false],
-      'H': [true, false, true, false, false],
-      'J': [false, true, false, true, true],
-      'K': [false, true, true, true, true],
-      'L': [true, false, false, true, false],
-      'Z': [true, false, false, false, true],
-      'X': [true, true, true, false, true],
-      'C': [false, true, true, true, false],
-      'V': [true, true, true, true, false],
-      'B': [true, true, false, false, true],
-      'N': [false, true, true, false, false],
-      'M': [true, true, true, false, false],
-      '3': [false, true, false, false, false], // carriage return
-      '4': [false, false, false, true, false], // line feed
-      '+': [true, true, false, true, true], // shift to figures
-      '8': [true, true, true, true, true] // shift to letters
+      '/': {
+              bits: [false, false, false, false, false],
+              binary: 0
+           }, // null
+      'E': {
+              bits: [false, false, false, false, true],
+              binary: 1
+            },
+      '4': {
+              bits: [false, false, false, true, false],
+              binary: 2
+           }, // line feed
+      'A': {
+              bits: [false, false, false, true, true],
+              binary: 3
+           },
+      '9': {
+              bits: [false, false, true, false, false],
+              binary: 4
+           }, // space
+      'S': {
+              bits: [false, false, true, false, true],
+              binary: 5
+           },
+      'I': {
+              bits: [false, false, true, true, false],
+              binary: 6
+           },
+      'U': {
+              bits: [false, false, true, true, true],
+              binary: 7
+           },
+      '3': {
+              bits: [false, true, false, false, false],
+              binary: 8
+           }, // carriage return
+      'D': {
+              bits: [false, true, false, false, true],
+              binary: 9
+           },
+      'R': {
+              bits: [false, true, false, true, false],
+              binary: 10
+           },
+      'J': {
+              bits: [false, true, false, true, true],
+              binary: 11
+           },
+      'N': {
+              bits: [false, true, true, false, false],
+              binary: 12
+           },
+      'F': {
+              bits: [false, true, true, false, true],
+              binary: 13
+           },
+      'C': {
+              bits: [false, true, true, true, false],
+              binary: 14
+           },
+      'K': {
+              bits: [false, true, true, true, true],
+              binary: 15
+           },
+      'T': {
+              bits: [true, false, false, false, false],
+              binary: 16
+           },
+      'Z': {
+              bits: [true, false, false, false, true],
+              binary: 17
+           },
+      'L': {
+              bits: [true, false, false, true, false],
+              binary: 18
+           },
+      'W': {
+              bits: [true, false, false, true, true],
+              binary: 19
+           },
+      'H': {
+              bits: [true, false, true, false, false],
+              binary: 20
+           },
+      'Y': {
+              bits: [true, false, true, false, true],
+              binary: 21
+           },
+      'P': {
+              bits: [true, false, true, true, false],
+              binary: 22
+           },
+      'Q': {
+              bits: [true, false, true, true, true],
+              binary: 23
+           },
+      'O': {
+              bits: [true, true, false, false, false],
+              binary: 24
+           },
+      'B': {
+              bits: [true, true, false, false, true],
+              binary: 25
+           },
+      'G': {
+              bits: [true, true, false, true, false],
+              binary: 26
+           },
+      '+': {
+              bits: [true, true, false, true, true],
+              binary: 27
+           }, // shift to figures
+      'M': {
+              bits: [true, true, true, false, false],
+              binary: 28
+           },
+      'X': {
+              bits: [true, true, true, false, true],
+              binary: 29
+           },
+      'V': {
+              bits: [true, true, true, true, false],
+              binary: 30
+           },
+      '8': {
+              bits: [true, true, true, true, true],
+              binary: 31
+           }, // shift to letters
     };
 
     this.char2bits = function(ttyChar) {
-      var aFromChar = bits[ttyChar];
+      var aFromChar = bits[ttyChar].bits;
 
       if (aFromChar) {
         return aFromChar;
@@ -70,20 +166,28 @@ angular.module('heathRobinson').
 
     };
 
-    this.char2print = function(chars) {
+    this.chars2print = function(chars) {
       var converted = [];
       var charString;
-      var bits = [];
+      var tf = [];
       for (var i = 0; i < chars.length; i++) {
-        bits = this.char2bits(chars[i]);
+        tf = this.char2bits(chars[i]);
         charString = '';
         for (var j = 0; j < 5; j++) {
-          charString += bits[j] ? 'X' : '\u2022';
+          charString += tf[j] ? 'X' : '\u2022';
           if (j < 4) {
             charString += ' ';
           }
         }
         converted.push(charString);
+      }
+      return converted;
+    };
+
+    this.chars2binary = function(chars) {
+      var converted = [];
+      for (var i = 0; i < chars.length; i++) {
+        converted.push(bits[chars[i]].binary);
       }
       return converted;
     };
