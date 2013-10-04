@@ -400,6 +400,12 @@ angular.module('heathRobinson').
               ngModel.$setViewValue(filtered);
               ngModel.$render();
             }
+
+            if (filtered.length < 20) {
+              ngModel.$setValidity('minlength', false);
+            } else {
+              ngModel.$setValidity('minlength', true);
+            }
             return filtered;
           }
           return inputValue;

@@ -146,17 +146,19 @@
     <div class="container" id="tape-edit" ng-show="tapeEditorActive">
       <div class="row">
         <div class="col-md-12">
-          <form role="form">
-            <div class="form-group">
-              <label for="tape1" class="control-label">Ciphertext ({{tape1.copy.length}})</label>
-              <textarea rows="4" class="form-control" id="ciphertext" data-ng-model="tape1.copy" spellcheck="false" data-tape-input></textarea>
+          <form role="form" name="tapeEdit" novalidate>
+            <div class="form-group tape-input" ng-class="{'has-error': tapeEdit.ciphertext.$error.minlength}">
+              <div class="error" ng-show="tapeEdit.ciphertext.$error.minlength">The length must be at least 20 characters</div>
+              <label for="tape1" class="control-label">Ciphertext ({{tape1.copy.length || '&lt; 20'}})</label>
+              <textarea name="ciphertext" rows="4" class="form-control" id="ciphertext" data-ng-model="tape1.copy" spellcheck="false" data-tape-input></textarea>
             </div>
-            <div class="form-group">
+            <div class="form-group tape-input" ng-class="{'has-error': tapeEdit.partialkey.$error.minlength}">
+              <div class="error" ng-show="tapeEdit.partialkey.$error.minlength">The length must be at least 20 characters</div>
               <label for="tape2" class="control-label">Partial Key ({{tape2.copy.length}})</label>
-              <textarea rows="4" class="form-control" id="partialkey" data-ng-model="tape2.copy" spellcheck="false" data-tape-input></textarea>
+              <textarea name="partialkey" rows="4" class="form-control" id="partialkey" data-ng-model="tape2.copy" spellcheck="false" data-tape-input></textarea>
             </div>
             <div class="form-group" style="text-align: center;">
-              <button type="submit" class="btn btn-primary" ng-click="updateTapes()">Update tapes</button>
+              <button type="submit" class="btn btn-primary" ng-disabled="!tapeEdit.$valid" ng-click="updateTapes()">Update tapes</button>
             </div>
           </form>
         </div>
